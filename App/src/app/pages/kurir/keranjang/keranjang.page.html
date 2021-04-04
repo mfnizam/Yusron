@@ -1,0 +1,60 @@
+<ion-content class="ion-padding">
+	<ion-grid>
+		<ion-row class="header-title mb-1 ion-align-items-center">
+			<ion-col size="auto" class="d-none back-btn">
+				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+			</ion-col>
+			<ion-col>Keranjang</ion-col>
+		</ion-row>
+		<ion-row class="mb-5">
+			<ion-col size="12" *ngFor="let p of dataBayar">
+				<ion-card mode="ios" class="ion-no-margin mb-1">
+					<div class="d-flex">
+						<div class="w-5 flex-shrink-0">
+							<div class="pb-100 h-100 p-relative">
+								<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+							</div>
+						</div>
+						<div class="flex-1 d-flex flex-column p-1">
+							<div class="text-max text-max-2 mb-05"><b>Nama Produk - Dan Info-info Lain Yang Perlu Dicantumkan - Jenis atau Kategori</b></div>
+							<div class="c-primary"><b>Rp. 30.000,-</b></div>
+							<div class="flex-1 d-flex ion-justify-content-end ion-align-items-end">
+								<h3 class="ion-no-margin lh-0 mr-1">
+									<ion-icon name="trash-outline" color="dark"></ion-icon>
+								</h3>
+								<h3 class="ion-no-margin lh-0 mr-1">
+									<ion-icon name="remove-circle-outline" color="medium"></ion-icon>
+								</h3>
+								<div class="mr-1">
+									<input class="w-3 border-none border-bottom b-none ion-text-center" value="1">
+								</div>
+								<h3 class="ion-no-margin lh-0">
+									<ion-icon name="add-circle-outline" color="primary"></ion-icon>
+								</h3>
+							</div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid class="p-fixed w-100 ion-no-padding l-0 b-0">
+		<ion-row>
+			<ion-col>
+				<ion-card mode="ios" class="border-0 border-tl-card border-tr-card ion-no-margin">
+					<div class="d-flex py-1 px-1 ion-align-items-center ion-margin-start ion-margin-end">
+						<div class="flex-1 d-flex flex-column ion-justify-content-end">
+							<small class="opacity-3">Total Harga</small>
+							<h3 class="ion-no-margin"><small>Rp.</small> <b>{{totalBayar | currency:' ':'symbol':'.0':'id'}}</b>,-</h3>
+						</div>
+						<div class="flex-shrink-0">
+							<ion-button mode="ios" color="primary" size="small" [disabled]="dataBayar.length < 1" class="w-6" (click)="bayar()">
+								<b>Bayar</b>
+							</ion-button>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

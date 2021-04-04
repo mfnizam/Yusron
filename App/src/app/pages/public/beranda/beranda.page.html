@@ -1,0 +1,85 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="ion-align-items-center ion-padding-start ion-padding-end mb-1">
+			<ion-col>
+				<ion-text color="medium">
+					<h6 class="ion-no-margin">Selamat Malam</h6>
+				</ion-text>
+				<h3 class="ion-no-margin ion-text-capitalize text-max text-max-1">
+					<b>{{dataUser?.namaLengkap}}</b>
+				</h3>
+			</ion-col>
+			<ion-col size="auto">
+				<ion-avatar [routerLink]="['/public/akun']" class="border-avatar">
+					<img src="https://investor.waskita.co.id/assets/img/no-profile-photo.jpg">
+				</ion-avatar>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end mb-2">
+			<ion-col>
+				<div class="border border-card ion-no-margin py-1 px-2 d-flex ion-align-items-center">
+					<div class="flex-1">
+						<small class="c-medium-tint">Saldo Anda</small>
+						<h4 class="ion-no-margin c-primary"><b>Rp. <span *ngIf="dataUser">{{dataUser.saldo | currency:' ':'symbol':'.0':'id'}}</span>,-</b></h4>
+					</div>
+					<div class="c-primary" [routerLink]="['/public/topup']">
+						<b>+ Topup</b>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-searchbar mode="ios" placeholder="Cari Produk" class="contain-unset h-auto ion-no-padding"></ion-searchbar>
+			</ion-col>
+		</ion-row>
+		<!-- <ion-row>
+			<ion-col class="d-flex ion-align-items-center">
+				<h3 class="flex-1 ion-no-margin c-medium-tint"><b>Produk</b></h3>
+				<ion-note [routerLink]="['/public/list/tagihan', { filter: 'tagihan' }]" color="primary" class="flex-shrink-0">Lihat Semua ({{dataTagihan.length}})</ion-note>
+			</ion-col>
+		</ion-row> -->
+		<ion-row class="ion-padding">
+			<ion-col size="6" *ngFor="let u of dataProduk; let i = index;">
+				<ion-card mode="ios" class="ion-no-margin">
+					<div [routerLink]="['detail', {idProduk: u._id}]" class="pb-100 p-relative">
+						<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+					</div>
+					<div class="p-1">
+						<div [routerLink]="['detail', {idProduk: u._id}]">
+							<div class="text-max text-max-2 mb-05" style="height: 32px;"><b>{{u.nama}}</b></div>
+							<div class="c-primary mb-1"><b><small>Rp.</small> {{u.harga | currency:' ':'symbol':'.0':'id'}},-</b></div>
+						</div>
+						<div class="d-flex ion-align-items-center">
+							<div class="flex-1 d-flex ion-align-items-center">
+								<small>
+									<ion-icon name="star" color="warning" class="mr-05"></ion-icon> <b>{{u.rating? u.rating : 0 | number: '1.1'}} | Terjual {{u.terjual}}</b>
+								</small>
+							</div>
+							<div class="flex-shrink-0 d-flex ion-align-items-center">
+								<div *ngIf="!u.loading" class="d-flex ion-align-items-center" (click)="tambahKeranjang(i)">
+									<span class="c-primary">+</span>
+									<h3 class="ion-no-margin lh-0">
+										<ion-icon name="cart-outline" color="primary"></ion-icon>
+									</h3>
+								</div>
+								<ion-spinner *ngIf="u.loading" name="crescent" color="primary" style="height: 22px;"></ion-spinner>
+							</div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+			<ion-col *ngIf="dataProduk.length < 1 || (dataProduk.length < 1 && produkLoading > 0)">
+				<ion-card mode="ios" class="ion-no-margin ion-padding o-hidden h-6r d-flex flex-column ion-align-items-center ion-justify-content-center">
+					<div class="ion-text-center">
+						<h6 class="ion-no-margin c-medium-tint">
+							{{produkLoading == 1? 'Memuat Data Produk..' : produkLoading == 0? 'Data Produk Kosong' : 'Gagal Memuat Data Produk'}}
+						</h6>
+						<ion-spinner *ngIf="produkLoading == 1" name="lines"></ion-spinner>
+						<ion-button *ngIf="produkLoading == 2" mode="ios" size="small" color="warning" (click)="ambilProduk()">Coba Lagi</ion-button>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

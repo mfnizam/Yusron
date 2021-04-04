@@ -1,0 +1,49 @@
+<ion-content>
+	<div class="c-content">
+		<div class="c-back-button" (click)="goBack()">
+			<ion-icon name="arrow-back" color="primary"></ion-icon>
+		</div>
+		<div class="c-logo">
+			<!-- <img src="assets/logo.png"> -->
+			<div class="title">Daftar</div>
+		</div>
+		<form [formGroup]="form" id="form" (ngSubmit)="daftar()">
+			<ion-item lines="none">
+				<ion-label [color]="(form.controls.eAn.invalid) && (form.controls.eAn.dirty || form.controls.eAn.touched)? 'danger' : 'primary'" position="floating">Daftar dengan Email<!--  atau Nomer Hp --></ion-label>
+				<ion-input formControlName="eAn" type="text" (ionChange)="inputChange()" ></ion-input>
+			</ion-item>
+			<ion-item lines="none" style="margin-top: 10px;">
+				<ion-label [color]="(form.controls.nama.invalid) && (form.controls.nama.dirty || form.controls.nama.touched)? 'danger' : 'primary'"  position="floating">Nama Lengkap Anda</ion-label>
+				<ion-input formControlName="nama" type="text" (ionChange)="inputChange()"></ion-input>
+			</ion-item>
+			<div [style.opacity]="isEmail? 1 : 0" class="c-password">
+				<div class="c-eye" (click)="showPass = !showPass">
+					<ion-icon [name]="showPass? 'eye-off' : 'eye'" [color]="showPass? 'primary' : 'medium'"></ion-icon>
+				</div>
+				<ion-item lines="none">
+					<ion-label [color]="(form.controls.password.invalid) && (form.controls.password.dirty || form.controls.password.touched)? 'danger' : 'primary'"  position="floating">Password</ion-label>
+					<ion-input formControlName="password" [type]="showPass? 'text' : 'password'" name="password" required (ionChange)="inputChange()"></ion-input>
+				</ion-item>
+			</div>
+			<ion-item [style.opacity]="isEmail? 1 : 0"  lines="none" class="c-password">
+				<ion-label [color]="form.controls.confPassword && (form.controls.password != form.controls.confPassword)? 'danger' : 'primary'" position="floating">Confirm Password</ion-label>
+				<ion-input formControlName="confPassword" [type]="showPass? 'text' : 'password'" name="password" required (ionChange)="inputChange()"></ion-input>
+			</ion-item>
+
+			<div [style.transform]="isEmail? 'translateY(0)' : 'translateY(-131px)'" class="c-err-btn">
+				<div class="c-err-lupa">
+					<div class="err"><span *ngIf="loginMsg">{{loginMsg}}</span></div>
+				</div>
+				<button type="submit" class="btn-masuk" [disabled]="form.invalid">
+					<div *ngIf="!isLoading">{{isEmail? 'Daftar' : 'Selanjutnya'}}</div>
+					<ion-spinner *ngIf="isLoading" color="white"></ion-spinner>
+				</button>
+			</div>
+		</form>
+		
+		<div class="atau">
+			Sudah punya akun?
+			<a class="btn-daftar" (click)="goBack()">Masuk</a>
+		</div>
+	</div>
+</ion-content>

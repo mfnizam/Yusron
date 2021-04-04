@@ -1,0 +1,7 @@
+{
+  "name": "Yusron",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

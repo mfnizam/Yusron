@@ -1,0 +1,427 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="ion-align-items-center ion-padding-start ion-padding-end mb-1">
+			<ion-col>
+				<div class="d-flex align-items-center">
+					<div class="header-title flex-1">Penjualan</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-segment id="pp-segment" mode="ios" scrollable [(ngModel)]="segmentValue" class="ion-no-margin" (ionChange)="tabChange(segmentValue)">
+					<ion-segment-button value="belum" id="pp-belum">
+						<ion-label>Belum Dibayar</ion-label>
+					</ion-segment-button>
+					<ion-segment-button value="menunggu" id="pp-menunggu">
+						<ion-label>Menunggu Verifikasi</ion-label>
+						<ion-badge *ngIf="dataMenunggu.length > 0" mode="ios" color="danger" class="p-absolute w-2 h-2 d-flex ion-align-items-center ion-justify-content-center lh-1 t-0 r--1"><small>{{dataMenunggu.length}}</small></ion-badge>
+					</ion-segment-button>
+					<ion-segment-button value="proses" id="pp-proses">
+						<ion-label>Diproses</ion-label>
+						<ion-badge *ngIf="dataProses.length > 0" mode="ios" color="danger" class="p-absolute w-2 h-2 d-flex ion-align-items-center ion-justify-content-center lh-1 t-0 r--1"><small>{{dataProses.length}}</small></ion-badge>
+					</ion-segment-button>
+					<ion-segment-button value="siap" id="pp-siap">
+						<ion-label>Siap Kirim</ion-label>
+					</ion-segment-button>
+					<ion-segment-button value="kirim" id="pp-kirim">
+						<ion-label>Dikirim</ion-label>
+					</ion-segment-button>
+					<ion-segment-button value="selesai" id="pp-selesai">
+						<ion-label>Selesai</ion-label>
+					</ion-segment-button>
+					<ion-segment-button value="batal" id="pp-batal">
+						<ion-label>Batal</ion-label>
+					</ion-segment-button>
+				</ion-segment>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<div class="d-flex mb-1">
+					<div class="flex-2 mr-1">
+						<ion-searchbar mode="ios" class="ion-no-padding search-custom"></ion-searchbar>
+					</div>
+					<div class="flex-1 border border-card ml-1">
+
+						<ion-select mode="ios" interface="popover" okText="Okay" cancelText="Batal" placeholder="Urutkan">
+							<ion-select-option value="terbaru">Terbaru</ion-select-option>
+							<ion-select-option value="terlama">Terlama</ion-select-option>
+							<ion-select-option value="tinggi">Tertinggi (Rp)</ion-select-option>
+							<ion-select-option value="rendah">Terendah (Rp)</ion-select-option>
+						</ion-select>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<div [ngSwitch]="segmentValue">
+					<div *ngSwitchCase="'belum'">
+						<div *ngIf="dataBelumUi.length > 0">
+							<ion-card *ngFor="let p of dataBelumUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="warning" outline class="ion-no-margin">
+											<ion-label>Menunggu Pembayaran</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Dikirim ke rekening</small></div>
+									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataBelumUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{belumLoading == 0? 'Tidak Ada Data Pembelian Yang Belum Terbayar' : belumLoading == 1? 'Memuat Data Pembelian Yang Belum Terbayar..' : 'Gagal Memuat Data Pembelian Yang Belum Terbayar'}}</div>
+									<ion-spinner *ngIf="belumLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="belumLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([0])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'menunggu'">
+						<div *ngIf="dataMenungguUi.length > 0">
+							<ion-card *ngFor="let p of dataMenungguUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="medium" outline class="ion-no-margin">
+											<ion-label>{{p.status == 2? 'Menunggu Upload Ulang' : 'Menunggu Verifikasi ' + (p.buktiPembayaran?.length > 1? 'Ulang' : '')}}</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Dikirim ke rekening</small></div>
+									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+									<ion-button *ngIf="p.status == 1" color="primary" size="small" class="ion-no-margin" (click)="verifikasiBukti(p)">
+										Verifikasi {{p.buktiPembayaran?.length > 1? 'Ulang' : ''}} Bukti Pembayaran
+									</ion-button>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataMenungguUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{menungguLoading == 0? 'Tidak Ada Data Pembelian Yang Belum Terverifikasi' : menungguLoading == 1? 'Memuat Data Pembelian Yang Belum Terverifikasi..' : 'Gagal Memuat Data Pembelian Yang Belum Terverifikasi'}}</div>
+									<ion-spinner *ngIf="menungguLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="menungguLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([1,2])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'proses'">
+						<div *ngIf="dataProsesUi.length > 0">
+							<ion-card *ngFor="let p of dataProsesUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="primary" outline class="ion-no-margin">
+											<ion-label>Diproses</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+										<div class="pb-100 h-100 p-relative">
+											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+										</div>
+									</div>
+									<div>
+										<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama? pp.produk?.nama : p.produkBackup[i].produk?.nama}}</b></div>
+										<small>{{pp.jumlah}} Barang</small>
+									</div>
+								</div>
+								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+								<div class="d-flex ion-align-items-center mb-2" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+								</div>
+								<div *ngIf="p.jenis == 1" class="d-flex">
+									<ion-button color="primary" size="small" fill="outline" class="flex-1 ion-no-margin" (click)="batalPembelian(p)">Batalkan Pembelian</ion-button>
+									<div class="w-1"></div>
+									<ion-button color="primary" size="small" class="flex-1 ion-no-margin" (click)="siapPembelian(p)">Kirim Pembelian</ion-button>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataProsesUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{prosesLoading == 0? 'Tidak Ada Data Pembelian Yang Diproses' : prosesLoading == 1? 'Memuat Data Pembelian Yang Diproses..' : 'Gagal Memuat Data Pembelian Yang Diproses'}}</div>
+									<ion-spinner *ngIf="prosesLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="prosesLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([3])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'siap'">
+						<div *ngIf="dataSiapUi.length > 0">
+							<ion-card *ngFor="let p of dataSiapUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="primary" outline class="ion-no-margin">
+											<ion-label>Siap Kirim</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+										<div class="pb-100 h-100 p-relative">
+											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+										</div>
+									</div>
+									<div>
+										<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama? pp.produk?.nama : p.produkBackup[i].produk?.nama}}</b></div>
+										<small>{{pp.jumlah}} Barang</small>
+									</div>
+								</div>
+								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+
+								<div class="mb-1">
+									<div><small>Kurir</small></div>
+									<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataSiapUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{siapLoading == 0? 'Tidak Ada Data Pembelian Yang Siap Dikirim' : siapLoading == 1? 'Memuat Data Pembelian Siap Dikirim..' : 'Gagal Memuat Data Pembelian Siap Dikirim'}}</div>
+									<ion-spinner *ngIf="siapLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="siapLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([4])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'kirim'">
+						<div *ngIf="dataKirimUi.length > 0">
+							<ion-card *ngFor="let p of dataKirimUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="primary" outline class="ion-no-margin">
+											<ion-label>Dikirim</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+										<div class="pb-100 h-100 p-relative">
+											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+										</div>
+									</div>
+									<div>
+										<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama? pp.produk?.nama : p.produkBackup[i].produk?.nama}}</b></div>
+										<small>{{pp.jumlah}} Barang</small>
+									</div>
+								</div>
+								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+
+								<div class="mb-1">
+									<div><small>Kurir</small></div>
+									<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataKirimUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{kirimLoading == 0? 'Tidak Ada Data Pembelian Yang Sedang Dikirim' : kirimLoading == 1? 'Memuat Data Pembelian Sedang Dikirim..' : 'Gagal Memuat Data Pembelian Sedang Dikirim'}}</div>
+									<ion-spinner *ngIf="kirimLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="kirimLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([5])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'selesai'">
+						<div *ngIf="dataPembelianUi.length > 0">
+							<ion-card *ngFor="let p of dataPembelianUi" mode="ios" class="ion-no-margin ion-padding mb-2">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="success" outline class="ion-no-margin">
+											<ion-label>Selesai</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div *ngIf="p.jenis == 1">
+									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+											<div class="pb-100 h-100 p-relative">
+												<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+											</div>
+										</div>
+										<div>
+											<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama? pp.produk?.nama : p.produkBackup[i].produk?.nama}}</b></div>
+											<small>{{pp.jumlah}} Barang</small>
+										</div>
+									</div>
+									<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+									<div class="mb-1">
+										<div><small>Kurir</small></div>
+										<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+									</div>
+								</div>
+
+								<div *ngIf="p.jenis == 2" class="mb-1">
+									<div class="mt--05"><small>Dikirim ke rekening</small></div>
+									<div><b>{{p.rekening.namaBank || p.rekeningBackup.namaBank}} - {{p.rekening.noRek || p.rekeningBackup.noRek}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+									<ion-button color="primary" size="small" fill="outline" class="flex-1 ion-no-margin" (click)="lihatBukti(p)">Lihat Bukti Pembayaran</ion-button>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataPembelianUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{pembelianLoading == 0? 'Tidak Ada Data Pembelian Selesai' : pembelianLoading == 1? 'Memuat Data Pembelian Yang Sudah Selesai..' : 'Gagal Memuat Data Pembelian Yang Sudah Selesai'}}</div>
+									<ion-spinner *ngIf="pembelianLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="pembelianLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([6])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+					<div *ngSwitchCase="'batal'">
+						<div *ngIf="dataBatalUi.length > 0">
+							<ion-card *ngFor="let p of dataBatalUi" mode="ios" class="ion-no-margin ion-padding mb-2S">
+								<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+									<h4 class="flex-shrink-0 ion-no-margin lh-0">
+										<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+									</h4>
+									<div class="flex-1">
+										<div class="lh-1 mb-01">
+											<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+										</div>
+										<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+									</div>
+									<div class="flex-shrink-0">
+										<ion-chip color="danger" outline class="ion-no-margin">
+											<ion-label>Batal</ion-label>
+										</ion-chip>
+									</div>
+								</div>
+								<div *ngIf="p.jenis == 1">
+									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+											<div class="pb-100 h-100 p-relative">
+												<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+											</div>
+										</div>
+										<div>
+											<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama? pp.produk?.nama : p.produkBackup[i].produk?.nama}}</b></div>
+											<small>{{pp.jumlah}} Barang</small>
+										</div>
+									</div>
+									<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+								</div>
+								<div *ngIf="p.jenis == 2" class="mb-1">
+									<div><small>Dikirim ke rekening</small></div>
+									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
+								</div>
+								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+									<div class="flex-1">
+										<small>Total {{jenisTitle[p.jenis]}}</small>
+										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+									</div>
+								</div>
+							</ion-card>
+						</div>
+						<div *ngIf="dataBatalUi.length < 1">
+							<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+								<div class="w-100">
+									<div>{{batalLoading == 0? 'Tidak Ada Data Pembelian Dibatalkan' : batalLoading == 1? 'Memuat Data Pembelian Yang Dibatalkan..' : 'Gagal Memuat Data Pembelian Yang Dibatalkan'}}</div>
+									<ion-spinner *ngIf="batalLoading == 1" name="lines" class="mt-1"></ion-spinner>
+									<ion-button *ngIf="batalLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian([7])">Coba Lagi</ion-button>
+								</div>
+							</ion-card>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

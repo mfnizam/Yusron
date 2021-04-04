@@ -1,0 +1,71 @@
+<ion-content class="ion-padding">
+	<ion-grid>
+		<ion-row class="header-title mb-1 ion-align-items-center">
+			<!-- <ion-col size="auto" class="d-none back-btn">
+				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+			</ion-col> -->
+			<ion-col>Keranjang</ion-col>
+		</ion-row>
+		<ion-row class="mb-5">
+			<ion-col #keranjangList size="12" *ngFor="let p of dataKeranjang; let i = index;">
+				<ion-card mode="ios" class="ion-no-margin mb-1">
+					<div class="d-flex">
+						<div class="w-5 flex-shrink-0">
+							<div class="pb-100 h-100 p-relative">
+								<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+							</div>
+						</div>
+						<div class="flex-1 d-flex flex-column p-1">
+							<div class="text-max text-max-2 mb-05 mr-1"><b>{{p.produk.nama}}</b></div>
+							<div class="c-primary"><b><small>Rp.</small> {{p.produk.harga | currency:' ':'symbol':'.0':'id'}},-</b></div>
+							<div class="flex-1 d-flex ion-justify-content-end ion-align-items-end">
+								<h3 class="ion-no-margin lh-0 mr-1"  (click)="hapus(i)">
+									<ion-icon name="trash-outline" color="dark"></ion-icon>
+								</h3>
+								<h3 class="ion-no-margin lh-0 mr-1" (click)="kurangi(i)">
+									<ion-icon name="remove-circle-outline" [color]="p.jumlah < 2? 'medium' : 'primary'"></ion-icon>
+								</h3>
+								<div class="mr-1">
+									<input type="number" class="w-3 border-none border-bottom b-none ion-text-center fw-bold" [(ngModel)]="p.jumlah" (ngModelChange)="ubahJumlah(i)" (blur)="blur(i)">
+								</div>
+								<h3 class="ion-no-margin lh-0" (click)="tambah(i)">
+									<ion-icon name="add-circle-outline" color="primary"></ion-icon>
+								</h3>
+							</div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+			<ion-col *ngIf="dataKeranjang.length < 1 || (dataKeranjang.length < 1 && keranjangLoading > 0)">
+				<ion-card mode="ios" class="ion-no-margin ion-padding o-hidden h-6r d-flex flex-column ion-align-items-center ion-justify-content-center">
+					<div class="ion-text-center">
+						<h6 class="ion-no-margin c-medium-tint">
+							{{keranjangLoading == 1? 'Memuat Data Produk..' : keranjangLoading == 0? 'Data Produk Kosong' : 'Gagal Memuat Data Produk'}}
+						</h6>
+						<ion-spinner *ngIf="keranjangLoading == 1" name="lines"></ion-spinner>
+						<ion-button *ngIf="keranjangLoading == 2" mode="ios" size="small" color="warning" (click)="ambilKeranjang()">Coba Lagi</ion-button>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+	<ion-grid class="p-fixed w-100 ion-no-padding l-0 b-0">
+		<ion-row>
+			<ion-col>
+				<ion-card mode="ios" class="border-0 border-tl-card border-tr-card ion-no-margin">
+					<div class="d-flex py-1 px-1 ion-align-items-center ion-margin-start ion-margin-end">
+						<div class="flex-1 d-flex flex-column ion-justify-content-end">
+							<small class="opacity-3">Total Harga</small>
+							<h3 class="ion-no-margin"><small>Rp.</small> <b>{{totalBayar | currency:' ':'symbol':'.0':'id'}}</b>,-</h3>
+						</div>
+						<div class="flex-shrink-0">
+							<ion-button mode="ios" color="primary" size="small" [disabled]="dataKeranjang.length < 1" class="w-6" (click)="bayar()">
+								<b>Bayar</b>
+							</ion-button>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

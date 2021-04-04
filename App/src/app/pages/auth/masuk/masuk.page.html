@@ -1,0 +1,37 @@
+<ion-content>
+	<div class="c-content">
+		<div class="c-logo">
+			<!-- <div class="title">SD MUHAMMADIYAH 30 PORIS JAYA</div>
+			<div class="sub-title">Kota Tanggerang</div> -->
+		</div>
+		<form (ngSubmit)="masuk()">
+			<ion-item lines="none">
+				<ion-label [color]="eAnErr? 'danger' : 'primary'" position="floating">Masuk dengan Email<!--  atau Nomer Hp --></ion-label>
+				<ion-input type="text" name="eAn" [(ngModel)]="eAn" (ionChange)="inputChange()" ></ion-input>
+			</ion-item>
+			<div [style.opacity]="isEmail? 1 : 0" class="c-password">
+				<div class="c-eye" (click)="showPass = !showPass">
+					<ion-icon [name]="showPass? 'eye-off' : 'eye'" [color]="showPass? 'primary' : 'medium'"></ion-icon>
+				</div>
+				<ion-item lines="none">
+					<ion-label [color]="eAnErr == false? 'danger' : 'primary'" position="floating">Password</ion-label>
+					<ion-input [type]="showPass? 'text' : 'password'" name="password" [(ngModel)]="password" required (ionChange)="inputChange()"></ion-input>
+				</ion-item>
+			</div>
+			<div [style.transform]="isEmail? 'translateY(0)' : 'translateY(-64px)'" class="c-err-btn">
+				<div class="c-err-lupa">
+					<div class="err"><span *ngIf="loginMsg">{{loginMsg}}</span></div>
+					<!-- <div [style.opacity]="isEmail? 1 : 0" class="lupa">Forgot Password?</div> -->
+				</div>
+				<button type="submit" class="btn-masuk" [disabled]="btnDisabled">
+					<div *ngIf="!isLoading">{{isEmail? 'Masuk' : 'Selanjunya'}}</div>
+					<ion-spinner *ngIf="isLoading" color="light"></ion-spinner>
+				</button>
+			</div>
+		</form>
+		<div class="atau">
+			Belum punya akun?
+			<a routerLink="/daftar" routerDirection="forward" class="btn-daftar">Daftar</a>
+		</div>
+	</div>
+</ion-content>

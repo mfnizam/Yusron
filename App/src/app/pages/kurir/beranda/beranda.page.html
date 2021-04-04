@@ -1,0 +1,55 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="ion-align-items-center ion-padding-start ion-padding-end mb-1">
+			<ion-col>
+				<ion-text color="medium">
+					<h6 class="ion-no-margin">Selamat Malam</h6>
+				</ion-text>
+				<h3 class="ion-no-margin ion-text-capitalize text-max text-max-1">
+					<b>{{dataUser?.namaLengkap}}</b>
+				</h3>
+			</ion-col>
+			<ion-col size="auto">
+				<ion-avatar [routerLink]="['/public/akun']" class="border-avatar">
+					<img src="https://investor.waskita.co.id/assets/img/no-profile-photo.jpg">
+				</ion-avatar>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end mb-2">
+			<ion-col>
+				<div class="border border-card ion-no-margin py-1 px-2 d-flex ion-align-items-center">
+					<div class="flex-1">
+						<small class="c-medium-tint">Saldo Kurir</small>
+						<h4 class="ion-no-margin c-primary">
+							<b>Rp. <span *ngIf="dataUser">{{dataUser.saldo | currency:' ':'symbol':'.0':'id'}}</span>,-</b>
+						</h4>
+					</div>
+					<div class="c-primary">
+						<b>+ Topup</b>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-searchbar mode="ios" placeholder="Cari Pembelian Yang Dikirim" class="contain-unset h-auto ion-no-padding"></ion-searchbar>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding">
+			<ion-col *ngFor="let p of dataKirim">
+				
+			</ion-col>
+			<ion-col *ngIf="dataKirim.length < 1 || (dataKirim.length < 1 && kirimLoading > 0)">
+				<ion-card mode="ios" class="ion-no-margin ion-padding o-hidden h-6r d-flex flex-column ion-align-items-center ion-justify-content-center">
+					<div class="ion-text-center">
+						<h6 class="ion-no-margin c-medium-tint">
+							{{kirimLoading == 1? 'Memuat Data Pembelian Yang Belum Dikirim..' : kirimLoading == 0? 'Data Pembelian Belum Yang Dikirim Kosong' : 'Gagal Memuat Data Pembelian Yang Belum Dikirim'}}
+						</h6>
+						<ion-spinner *ngIf="kirimLoading == 1" name="lines"></ion-spinner>
+						<ion-button *ngIf="kirimLoading == 2" mode="ios" size="small" color="warning" (click)="ambilPembelian(dataUser._id)">Coba Lagi</ion-button>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

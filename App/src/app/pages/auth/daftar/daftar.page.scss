@@ -1,0 +1,141 @@
+:host{
+	ion-content{
+		--padding-top: 16px;
+		--padding-end: 16px;
+		--padding-bottom: 16px;
+		--padding-start: 16px;
+
+		.c-back-button{
+			position: absolute;
+
+			ion-icon{
+				font-size: 2rem;
+			}
+		}
+
+		.c-content{
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+
+			form{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				// justify-content: center;
+			}
+
+			.c-logo{
+				flex: .5;
+				margin: 10px 0 20px 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+
+				img{
+					height: 100px;
+					width: 100px;
+				}
+				.title{
+					font-weight: bold;
+					font-size: 52pt;
+					color: var(--ion-color-primary)
+				}
+			}
+
+			ion-item {
+				--background: var(--ion-color-light);
+				--border-radius: 5px;
+				transition: opacity 5s;
+			}
+
+			.item-has-focus ion-label.ion-color {  
+				color: var(--ion-color-base) !important;
+			}
+
+			.c-password{
+				margin-top: 10px;
+				position: relative;
+				transition: opacity .5s;
+			}
+			.c-eye{
+				position: absolute;
+				right: 0;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				z-index: 10;
+				width: 45px;
+				justify-content: center;
+			}
+
+			.c-err-btn{
+				transition: transform .5s;
+				z-index: 10;
+			}
+			.c-err-lupa{
+				display: flex;
+				padding: 5px 0 10px 0;
+				height: 28px;
+
+				.err{
+					flex: 1;
+					color: var(--ion-color-danger);
+					font-size: 9pt;
+					padding: 0 16px;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+			}
+
+			.btn-masuk{
+				background: var(--ion-color-primary);
+				font-weight: bold;
+				height: 55px;
+				border-radius: 5px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-size: 12pt;
+				width: 100%;
+
+				&:disabled{
+					background: var(--ion-color-primary-500);
+				}
+
+			}
+
+			.c-social{
+				display: flex;
+
+				.btn-social{
+					flex: 1;
+					--border-radius: 10px;
+					--box-shadow: none;
+					margin-top: 10px;
+					text-transform: none;
+				}
+			}
+
+			button{
+				outline: none;
+			}
+			
+			.atau{
+				margin: 0 auto;
+				text-align: center;
+				margin-top: 10px;
+				color: var(--ion-color-medium);
+				font-size: 10pt;
+
+				.btn-daftar{
+					font-weight: bold;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}

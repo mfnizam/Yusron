@@ -1,0 +1,87 @@
+<ion-content class="ion-padding">
+	<ion-grid>
+		<ion-row class="ion-align-items-center ion-margin-bottom">
+			<ion-col>
+				<div class="header-title">Akun</div>
+			</ion-col>
+			<ion-col size="auto">
+				<ion-note color="medium" (click)="logout()">Keluar</ion-note>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<div class="user">
+					<img src="https://investor.waskita.co.id/assets/img/no-profile-photo.jpg">
+				</div>
+				<div class="ion-text-center mb-1 ion-text-capitalize">
+					<div><b>{{userData?.namaLengkap || '-'}}</b></div>
+				</div>
+			</ion-col>
+		</ion-row>
+
+		<ion-row class="ion-align-items-center">
+			<ion-col>
+				<h6 class="title">Info Akun</h6>
+			</ion-col>
+			<ion-col size="auto">
+				<ion-note routerLink="edit" color="primary">Edit Akun</ion-note>
+			</ion-col>
+		</ion-row>
+
+		<ion-row>
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="at-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Email</small>
+							<div><b>{{userData?.email || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="calendar-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Tgl Lahir</small>
+							<div><b>{{userData?.tglLahir | date:'dd MMM yyyy'}}{{userData?.tglLahir? '' : '-'}}</b></div>
+						</div>
+					</div>
+
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="person-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Jenis Kelamin</small>
+							<div><b>{{userData?.jenisKelamin == 0? 'Perempuan' : userData?.jenisKelamin == 1? 'Laki - laki' : '-'}}</b></div>
+						</div>
+					</div>
+
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="call-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>No Tlp</small>
+							<div><b>{{userData?.noTlp || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div class="d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="location-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Alamat Lengkap</small>
+							<div><b>{{userData?.alamat || '-'}}</b></div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

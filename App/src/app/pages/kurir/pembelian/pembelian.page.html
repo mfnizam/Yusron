@@ -1,0 +1,119 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="mb-1 ion-padding-start ion-padding-end">
+			<ion-col>
+				<div class="header-title">Pengiriman</div>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+					<ion-searchbar mode="ios" placeholder="Cari History Pembelian" class="contain-unset h-auto ion-no-padding ion-padding-start ion-padding-end mb-2"></ion-searchbar>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col class="ion-no-padding">
+				<div class="mb-1 ion-padding-start ion-padding-end o-auto no-scrollbar">
+					<div class="pl-gc">
+						<div class="d-table-cell">
+							<ion-select mode="ios" interface="action-sheet" [interfaceOptions]="{ header: 'Mau lihat status apa?' }" [(ngModel)]="status" class="border border-card py-05 px-1 slide-pembelian mr-1">
+								<ion-select-option value="semua">Semua Status</ion-select-option>
+								<ion-select-option value="konfirmasi">Menunggu Konfirmasi</ion-select-option>
+								<ion-select-option value="konfirmasi-ulang">Menunggu Konfirmasi Ulang</ion-select-option>
+								<ion-select-option value="diproses">Diproses</ion-select-option>
+								<ion-select-option value="dikirim">Dikirim</ion-select-option>
+								<!-- <ion-select-option value="tiba">Tiba Ditujuan</ion-select-option> -->
+								<ion-select-option value="berhasil">Selesai</ion-select-option>
+								<ion-select-option value="tidak-berhasil">Di Batalkan</ion-select-option>
+							</ion-select>
+						</div>
+
+						<div class="d-table-cell">
+							<ion-select mode="ios" interface="action-sheet" [interfaceOptions]="{ header: 'Mau lihat status apa?' }" [(ngModel)]="jenis" class="border border-card py-05 px-1 slide-pembelian mr-1">
+								<ion-select-option value="semua">Semua Jenis</ion-select-option>
+								<ion-select-option value="belanja">Belanja</ion-select-option>
+								<ion-select-option value="topup">Topup</ion-select-option>
+							</ion-select>
+						</div>
+
+						<div class="d-table-cell pr-gc">
+							<ion-select mode="ios" interface="action-sheet" [interfaceOptions]="{ header: 'Mau lihat status apa?' }" [(ngModel)]="tanggal" class="border border-card py-05 px-1 ion-margin-end slide-pembelian">
+								<ion-select-option value="semua">Semua Waktu</ion-select-option>
+								<ion-select-option value="konfirmasi">30 hari</ion-select-option>
+								<ion-select-option value="diproses">90 Hari</ion-select-option>
+							</ion-select>
+						</div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<div *ngIf="dataPembelianUi.length > 0" class="ion-padding-start ion-padding-end">
+					<div *ngFor="let p of dataPembelianUi">
+						<ion-card mode="ios" class="ion-no-margin ion-padding mb-2">
+							<div class="d-flex ion-align-items-center border-bottom pb-1 mb-1">
+								<h4 class="flex-shrink-0 ion-no-margin lh-0">
+									<ion-icon [name]="jenisIcon[p.jenis] || 'alert'" color="primary" class="mr-1"></ion-icon>
+								</h4>
+								<div class="flex-1">
+									<div class="lh-1 mb-01">
+										<small><b>{{jenisTitle[p.jenis] || '-'}}</b></small>
+									</div>
+									<small class="text-max text-max-1">{{p.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</small>
+								</div>
+								<div class="flex-shrink-0">
+									<ion-chip [color]="p.status == 4? 'warning' : statusColor[p.status]" outline class="ion-no-margin">
+										<ion-label>{{p.status == 4? 'Menunggu Pengambilan' : statusTitle[p.status]}}</ion-label>
+									</ion-chip>
+								</div>
+								<!-- <div class="flex-shrink-0 d-flex">
+									<ion-icon name="ellipsis-vertical"></ion-icon>
+								</div> -->
+							</div>
+							<div *ngIf="p.jenis == 1">
+								<div *ngFor="let pp of p.produk | slice:0:2" class="d-flex mb-1 mt-1">
+									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+										<div class="pb-100 h-100 p-relative">
+											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+										</div>
+									</div>
+									<div>
+										<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama || '-'}}</b></div>
+										<small>{{pp.jumlah}} Barang</small>
+									</div>
+								</div>
+								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+							</div>
+							<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+								<div class="flex-1">
+									<small>Total {{jenisTitle[p.jenis]}}</small>
+									<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+								</div>
+								<ion-button *ngIf="p.status == 4" color="primary" size="small" (click)="ambilBarang(p)">Upload Bukti Pengambilan</ion-button>
+							</div>
+							<div *ngIf="p.status == 5" class="d-flex flex-column ion-align-items-center mt-1">
+								<ion-button *ngIf="p.status == 5" color="primary" class="w-100" (click)="bukaQrcode(p._id)">Tampilkan Barcode</ion-button>
+								<small class="opacity-3 ion-text-center">Tunjukkan QR Code kepada pelanggan untuk penyelasaian transaksi pengiriman</small>
+							</div>
+							<!-- <div class="d-flex">
+								<ion-button color="primary" size="small" class="flex-1 ion-no-margin" (click)="bukaQrcode(p._id)">Buka Barcode</ion-button>
+								<div class="w-1"></div>
+								<ion-button color="primary" size="small" class="flex-1 ion-no-margin" (click)="scanQrcode()">Scan QR-Code</ion-button>
+							</div> -->
+						</ion-card>
+					</div>	
+				</div>
+				
+				<div *ngIf="dataPembelianUi.length < 1" class="ion-padding-start ion-padding-end">
+					<ion-card mode="ios" class="ion-no-margin ion-padding ion-text-center d-flex ion-align-items-center">
+						<div class="w-100">
+							<div>{{pembelianLoading == 0? 'Tidak Ada Data Pembelian' : pembelianLoading == 1? 'Memuat Data Pembelian..' : 'Gagal Memuat Data Pembelian'}}</div>
+							<ion-spinner *ngIf="pembelianLoading == 1" name="lines" class="mt-1"></ion-spinner>
+							<ion-button *ngIf="pembelianLoading == 2" mode="ios" size="small" color="warning" class="ion-no-margin mt-1" (click)="ambilPembelian(dataUser._id)">Coba Lagi</ion-button>
+						</div>
+					</ion-card>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

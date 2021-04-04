@@ -1,0 +1,57 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="ion-align-items-center ion-padding-start ion-padding-end mb-1">
+			<ion-col>
+				<div class="d-flex align-items-center">
+					<div class="header-title flex-1">Produk</div>
+					<ion-note routerLink="cu" color="primary" class="flex-shrink-0"><b>+ Tambah</b></ion-note>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-searchbar mode="ios" placeholder="Cari Produk" class="contain-unset h-auto ion-no-padding"></ion-searchbar>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding">
+			<ion-col size="6" *ngFor="let u of dataProduk">
+				<ion-card mode="ios" class="ion-no-margin">
+					<div [routerLink]="['detail', {idProduk: u._id}]" class="pb-100 p-relative">
+						<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+					</div>
+					<div class="pt-1 px-1">
+						<div [routerLink]="['detail', {idProduk: u._id}]">
+							<div class="text-max text-max-2 mb-05" style="height: 32px;"><b>{{u.nama}}</b></div>
+							<div class="c-primary mb-1"><b>Rp. {{u.harga | currency:' ':'symbol':'.0':'id'}},-</b></div>
+						</div>
+						<div class="d-flex ion-align-items-center">
+							<div class="flex-1 d-flex ion-align-items-center pb-1">
+								<small>
+									<ion-icon name="star" color="warning" class="mr-05"></ion-icon> <b>{{u.rating? u.rating : 0 | number: '1.1'}} | Terjual {{u.terjual}}</b>
+								</small>
+							</div>
+							<div class="flex-shrink-0 d-flex ion-align-items-center h-100 pl-1" style="margin-right: -4px;" (click)="openPopover($event, u._id, u.nama)">
+								<ion-icon name="ellipsis-vertical-outline" color="primary" class="pb-1"></ion-icon>
+								<!-- <h3 class="ion-no-margin lh-0">
+									<ion-icon name="cart-outline" color="primary"></ion-icon>
+								</h3> -->
+							</div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+			<ion-col>
+				<ion-card *ngIf="dataProduk.length < 1 || (dataProduk.length < 1 && produkLoading > 0)" mode="ios" class="ion-no-margin ion-padding o-hidden h-6r">
+					<div class="ion-text-center">
+						<h6 class="ion-no-margin mb-1 c-medium-tint">
+							{{produkLoading == 1? 'Memuat Data Produk..' : produkLoading == 0? 'Data Produk Kosong' : 'Gagal Memuat Data Produk'}}
+						</h6>
+						<ion-button routerLink="cu" *ngIf="produkLoading == 0" mode="ios" size="small" color="primary">Tambah Produk</ion-button>
+						<ion-spinner *ngIf="produkLoading == 1" name="lines"></ion-spinner>
+						<ion-button *ngIf="produkLoading == 2" mode="ios" size="small" color="warning" (click)="ambilProduk()">Coba Lagi</ion-button>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

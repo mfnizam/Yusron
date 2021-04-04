@@ -1,0 +1,18 @@
+<ion-content>
+	<ion-list class="px-1">
+		<ion-item class="ion-no-padding" (click)="close('stok')">
+			<ion-icon slot="start" icon="duplicate-outline" style="font-size: 16pt;"></ion-icon>
+			<ion-label><b>Tambah Stok</b></ion-label>
+		</ion-item>
+
+		<ion-item class="ion-no-padding" (click)="close('edit')">
+			<ion-icon slot="start" icon="color-wand-outline" style="font-size: 16pt;"></ion-icon>
+			<ion-label><b>Edit Produk</b></ion-label>
+		</ion-item>
+
+		<ion-item class="ion-no-padding" lines="none" (click)="close('hapus')">
+			<ion-icon slot="start" icon="trash-outline" style="font-size: 16pt;"></ion-icon>
+			<ion-label><b>Hapus Produk</b></ion-label>
+		</ion-item>
+	</ion-list>
+</ion-content> 

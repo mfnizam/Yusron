@@ -1,0 +1,78 @@
+<ion-content class="ion-padding">
+	<ion-grid>
+		<ion-row class="header-title ion-margin-bottom ion-align-items-center">
+			<ion-col size="auto" class="d-none back-btn">
+				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+			</ion-col>
+			<ion-col>Edit Akun</ion-col>
+			<!-- <ion-col size="auto">
+				<button form="form" class="ion-no-padding ion-no-margin b-none d-flex ion-align-items-center ion-justify-content-center" [disabled]="isLoading || form.controls.password?.value != form.controls.confPassword?.value">
+					<ion-note color="primary" [style.opacity]="isLoading || form.controls.password?.value != form.controls.confPassword?.value? 0.2 : 1"><h4 class="ion-no-margin">Simpan</h4></ion-note>
+					<ion-spinner *ngIf="isLoading" color="primary" class="p-absolute"></ion-spinner>
+				</button>
+			</ion-col> -->
+
+			<ion-col size="auto">
+				<button form="form" class="ion-no-padding ion-no-margin b-none d-flex ion-align-items-center ion-justify-content-center" [disabled]="form.controls.password?.value != form.controls.confPassword?.value">
+					<ion-note color="primary" [style.opacity]="form.controls.password?.value != form.controls.confPassword?.value? 0.2 : 1"><h4 class="ion-no-margin">Simpan</h4></ion-note>
+				</button>
+			</ion-col>
+		</ion-row>
+		<!-- <ion-row>
+			<ion-col>
+				edit img here
+				edit gambar
+			</ion-col>
+		</ion-row> -->
+
+		<ion-row>
+			<ion-col>
+				<form [formGroup]="form" id="form" (ngSubmit)="simpan()">
+					<ion-item class="ion-no-padding ion-margin-bottom">
+						<ion-label color="primary" position="floating">Nama Lengkap*</ion-label>
+						<ion-input autofocus formControlName="namaLengkap" placeholder="Tulis Nama Lengkap Anda"></ion-input>
+					</ion-item>
+					
+					<ion-item class="ion-no-padding">
+						<ion-label color="primary" position="floating">Email</ion-label>
+						<ion-input formControlName="email" placeholder="Tulis Email Anda"></ion-input>
+					</ion-item>
+
+					<ion-item class="ion-no-padding ion-margin-bottom">
+						<ion-label color="primary" position="floating">Jenis Kelamin</ion-label>
+						<!-- <ion-input formControlName="username" placeholder="Tulis Username Anda"></ion-input> -->
+						<ion-select formControlName="jenisKelamin" placeholder="Pilih Jenis Kelamin">
+							<ion-select-option [value]="1">Laki - laki</ion-select-option>
+							<ion-select-option [value]="0">Perempuan</ion-select-option>
+						</ion-select>
+					</ion-item>
+
+					<ion-item class="ion-no-padding ion-margin-bottom">
+						<ion-label color="primary" position="floating">No Tlp (Whatsapp)</ion-label>
+						<ion-input #noTlp formControlName="noTlp" placeholder="Tulis No Tlp/Whatsapp Anda"></ion-input>
+					</ion-item>
+
+					
+					<ion-item *ngIf="gantiPass" class="ion-no-padding ion-margin-bottom ion-margin-top">
+						<ion-label color="primary" position="floating">Ganti Password</ion-label>
+						<ion-icon slot="end" color="primary" [name]="showPass? 'eye' : 'eye-off'" (click)="showPass = !showPass" class="p-absolute b-0 r-0"></ion-icon>
+						<ion-input formControlName="password" placeholder="Tulis Password Baru" [type]="showPass? 'text' : 'password'" class="ion-padding-end"></ion-input>
+					</ion-item>
+
+					<ion-item *ngIf="gantiPass" class="ion-no-padding">
+						<ion-label [color]="form.controls.password?.value != form.controls.confPassword?.value? 'danger' : 'primary'" position="floating">Konfirmasi Password</ion-label>
+						<ion-input formControlName="confPassword" placeholder="Tulis Konfirmasi Password Baru" [type]="showPass? 'text' : 'password'"></ion-input>
+					</ion-item>
+					<div class="mb-1">
+						<ion-note *ngIf="form.controls.password?.value != form.controls.confPassword?.value && gantiPass" color="danger">
+							<small>Password dan Konfirmasi Password harus sama</small></ion-note>
+							&nbsp;
+					</div>
+					<div>
+						<ion-button color="primary" fill="outline" expand="full" shape="round" (click)="gantiPass = !gantiPass">{{gantiPass? 'Batal' : ''}} Ganti Password</ion-button>
+					</div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

@@ -1,0 +1,239 @@
+<ion-content class="ion-padding">
+	<ion-grid>
+		<ion-row class="header-title ion-margin-bottom ion-align-items-center">
+			<ion-col size="auto" class="d-flex">
+				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+			</ion-col>
+			<ion-col class="ion-text-capitalize">Detail {{jenis}}</ion-col>
+			<ion-col size="auto">
+				<div class="flex-shrink-0">
+					<h2 class="ion-no-margin" [style.opacity]="dataMaster? 1 : .3">
+						<ion-icon name="create-outline" class="mr-2" (click)="edit()"></ion-icon>
+						<ion-icon name="trash-outline" color="danger" (click)="hapus()"></ion-icon>
+					</h2>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="jenis == 'kurir' || jenis == 'siswa'">
+			<ion-col>
+				<div class="d-flex ion-align-items-center ion-justify-content-center ion-margin-bottom mb-2">
+					<div class="p-relative w-50 pt-50p border-50p o-hidden">
+						<img src="https://investor.waskita.co.id/assets/img/no-profile-photo.jpg" class="p-absolute t-0">
+					</div>
+				</div>
+
+				<div *ngIf="jenis == 'kurir'" class="ion-text-center mb-1">
+					<div class="ion-text-capitalize"><b>{{dataMaster?.namaLengkap || '-'}}</b></div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="jenis == 'kurir' || jenis == 'siswa'">
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+					<div *ngIf="jenis == 'kurir'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="calendar-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Tgl Lahir</small>
+							<div><b>{{dataMaster?.tglLahir | date:'dd MMM yyyy'}}{{dataMaster?.tglLahir? '' : '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'siswa'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="person-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Nama Lengkap</small>
+							<div><b>{{dataMaster?.namaLengkap || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'siswa'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="card-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>NISN</small>
+							<div><b>{{dataMaster?.nisn || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="{{dataMaster?.jenisKelamin == 0? 'female' : 'male'}}-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Jenis Kelamin</small>
+							<div><b>{{dataMaster?.jenisKelamin == 0? 'Perempuan' : dataMaster?.jenisKelamin == 1? 'Laki - laki' : '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'siswa'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="library-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Kelas</small>
+							<div><b>{{dataMaster?.kelas?.title || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'kurir'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="call-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>No Tlp</small>
+							<div><b>{{dataMaster?.noTlp || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'kurir'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="at-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Email</small>
+							<div><b>{{dataMaster?.email || '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'kurir'" class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="eye-off-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Password</small>
+							<div><b>{{dataMaster?.hasPassword? '*********' : '-'}}</b></div>
+						</div>
+					</div>
+
+					<div *ngIf="jenis == 'kurir'" class="d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="location-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small>Alamat Lengkap</small>
+							<div><b>{{dataMaster?.alamat || '-'}}</b></div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+
+		<!-- <ion-row *ngIf="jenis == 'kurir'">
+			<ion-col>
+				<h6 class="title">Siswa</h6>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="jenis == 'kurir'" class="murid">
+			<ion-col>
+				<div *ngIf="dataMaster?.siswa?.length > 0">
+					<ion-card *ngFor="let m of dataMaster?.siswa" [routerLink]="['/admin/master/detail', {jenis: 'siswa', id: m._id}]" mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+						<div class="d-flex ion-align-items-center">
+							<ion-avatar class="flex-shrink-0 mr-2 border-avatar">
+								<img src="https://investor.waskita.co.id/assets/img/no-profile-photo.jpg">
+							</ion-avatar>
+							<div class="flex-1">
+								<div class="ion-text-capitalize"><b>{{m.namaLengkap || '-'}}</b></div>
+								<ion-note color="primary" class="ion-text-capitalize"><small>{{m.kelas?.title}} - {{m.nisn}}</small></ion-note>
+							</div>
+							<div class="flex-shrink-0">
+								<ion-icon name="chevron-forward-outline"></ion-icon>
+							</div>
+						</div>
+					</ion-card>
+				</div>
+				<div *ngIf="dataMaster?.siswa?.length < 1">
+					<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding d-flex ion-align-items-center ion-justify-content-center">
+						<ion-note>Data Kosong</ion-note>
+					</ion-card>
+				</div>
+			</ion-col>
+		</ion-row> -->
+
+		<!-- <ion-row *ngIf="jenis == 'kelas' || jenis == 'kategori'">
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="library-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small class="ion-text-capitalize">Nama {{jenis}}</small>
+							<div><b>{{dataMaster?.title || '-'}}</b></div>
+						</div>
+					</div>
+					<div class="d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="card-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small class="ion-text-capitalize">Tagihan Aktif</small>
+							<div><b>{{dataMaster?.tagihan || '0'}} Tagihan</b></div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row> -->
+
+		<!-- <ion-row *ngIf="jenis == 'rekening'">
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="library-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small class="ion-text-capitalize">Nama Bank</small>
+							<div><b>{{dataMaster?.namaBank || '-'}}</b></div>
+						</div>
+					</div>
+					<div class="ion-margin-bottom d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="card-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small class="ion-text-capitalize">Nomer Rekening</small>
+							<div><b>{{dataMaster?.noRek || '-'}}</b></div>
+						</div>
+					</div>
+					<div class="d-flex ion-align-items-center">
+						<h3 class="flex-shrink-0 mr-2 ion-no-margin d-flex ion-align-items-center">
+							<ion-icon name="person-outline" color="primary"></ion-icon>
+						</h3>
+						<div class="flex-1">
+							<small class="ion-text-capitalize">Atas Nama</small>
+							<div><b>{{dataMaster?.atasNama || '-'}}</b></div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row> -->
+
+		<!-- <ion-row *ngIf="jenis == 'kelas' || jenis == 'kategori'">
+			<ion-col>
+				<div>
+					<h3>Tagihan</h3>
+				</div>
+				<div *ngIf="dataMaster?.tagihan?.length > 0">
+					<ion-card mode="ios" class="ion-no-margin ion-margin-bottom ion-padding">
+					</ion-card>
+				</div>
+
+				<ion-card *ngIf="dataMaster?.tagihan?.length < 1" mode="ios" class="ion-no-margin ion-padding o-hidden">
+					<div class="ion-text-center">
+						<h6 class="ion-no-margin c-medium-tint">
+							{{tagihanLoading == 1? 'Memuat Data Tgaihan...' : tagihanLoading == 0? 'Data Tagihan Kosong' : 'Gagal Memuat Data Tagihan'}}
+						</h6>
+						<ion-spinner *ngIf="tagihanLoading == 1" name="lines" class="mt-1"></ion-spinner>
+						<ion-button *ngIf="tagihanLoading == 2" mode="ios" size="small" color="warning" class="mt-1" (click)="ambilTagihan()">Coba Lagi</ion-button>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row> -->
+
+	</ion-grid>
+</ion-content>

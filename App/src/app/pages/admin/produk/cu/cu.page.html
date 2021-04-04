@@ -1,0 +1,86 @@
+<ion-content class="ion-padding-top ion-padding-bottom">
+	<ion-grid class="px-0">
+		<ion-row class="header-title mb-1 ion-padding-start ion-padding-end ion-margin-bottom ion-align-items-center">
+			<ion-col size="auto" class="d-none back-btn">
+				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
+			</ion-col>
+			<ion-col class="ion-text-capitalize text-max text-max-1 wp-nowrap">{{update? 'Edit' : 'Tambah'}} Produk</ion-col>
+			<ion-col size="auto">
+				<button form="formproduk" class="ion-no-padding ion-no-margin b-none d-flex ion-align-items-center ion-justify-content-center" [disabled]="form.invalid">
+					<ion-note color="primary" [style.opacity]="form.invalid? 0.2 : 1"><h4 class="ion-no-margin">Simpan</h4></ion-note>
+				</button>
+			</ion-col>
+		</ion-row>
+		<ion-row class="mb-1">
+			<ion-col class="ion-no-padding">
+				<form [formGroup]="form" id="formproduk" (ngSubmit)="simpan()">
+					<div class="mb-2 p-gc" style="overflow-x: auto;">
+						<div class="ion-margin-start ion-margin-end" style="display: grid; grid-gap: 10px; grid-template-columns: repeat({{photo.length + 2}}, calc(50% - 40px));">
+							<div *ngFor="let p of photo; let f = first; let l = last" class="w-100 pb-100 p-relative">
+								<div class="p-absolute w-100 h-100 border-card b-primary-800 t-0 l-0 d-flex ion-align-items-center ion-justify-content-center">
+									<ion-icon icon="logo-buffer" color="primary" style="font-size: 40pt; opacity: .5;"></ion-icon>
+								</div>
+							</div>
+							<div class="w-100 pb-100 p-relative">
+								<div class="p-absolute w-100 h-100 border-card border border-c-primary t-0 l-0 d-flex flex-column ion-justify-content-center c-primary ion-text-center ion-padding opacity-4">
+									<h3 class="ion-no-margin"><b>+</b></h3>
+									<div><b>Tambahkan Foto Produk</b></div>
+								</div>
+							</div>
+							<div style="width: 14px;"></div>
+						</div>
+						<!-- <ion-slides pager="false" [options]="{ slidesPerView: 2.5, spaceBetween: 10 }" class="ion-padding-start swiper-wrapper-padding">
+							<ion-slide *ngFor="let f of [1,2,3,4,5]">
+								<div class="w-100 pb-100">
+									<div class="p-absolute w-100 h-100  border-card  b-primary-800 t-0 l-0"></div>
+								</div>
+							</ion-slide>
+							<ion-slide style="opacity:0; display: none; width: 0 !important; "></ion-slide>
+						</ion-slides> -->
+					</div>
+
+					<div class="ion-padding-start ion-padding-end">
+						<div class="p-gc">
+							<ion-item class="ion-no-padding ion-margin-bottom">
+								<ion-label color="primary" position="floating">Nama Produk*</ion-label>
+								<ion-input formControlName="nama" placeholder="Tulis nama produk"></ion-input>
+							</ion-item>
+							<!-- <ion-item class="ion-no-padding ion-margin-bottom">
+								<ion-label color="primary" position="floating">Harga*</ion-label>
+								<ion-input formControlName="harga" placeholder="Tulis harga produk"></ion-input>
+							</ion-item> -->
+							<ion-item class="ion-no-padding ion-margin-bottom" [ngClass]="(form.controls.harga.invalid) && (form.controls.harga.dirty || form.controls.harga.touched)? 'item-interactive ion-invalid ion-pristine ion-touched' : ''">
+								<div class="currency">
+									<ion-note color="primary" class="label">Harga</ion-note>
+									<div class="d-flex ion-align-items-center">
+										<div class="mr-1 c-medium-tint">Rp</div>
+										<input currencyMask type="tel" [options]="{ prefix: '', align: 'left', precision: 0, thousands: '.', allowNegative: false, suffix: ',-' }" name="harga" placeholder="0,-" formControlName="harga" class="b-none"/>
+									</div>
+								</div>
+							</ion-item>
+							<ion-item class="ion-no-padding ion-margin-bottom">
+								<ion-label color="primary" position="floating">Kategori*</ion-label>
+								<!-- <ion-input formControlName="kategori" placeholder="Pilih kategori produk"></ion-input> -->
+								<ion-select [interfaceOptions]="{header: 'Pilih Kategori Produk'}" interface="alert" formControlName="kategori" placeholder="Pilih kategori produk">
+									<ion-select-option *ngFor="let k of kategori" [value]="k._id">{{k.title}}</ion-select-option>
+								</ion-select>
+							</ion-item>
+							<ion-item class="ion-no-padding ion-margin-bottom">
+								<ion-label color="primary" position="floating">Diskon (%) <small *ngIf="form.controls.diskon.errors?.max || form.controls.diskon.errors?.min" class="c-danger"> &nbsp; &nbsp;Min 0, Max 100</small></ion-label>
+								<ion-input formControlName="diskon" type="number" placeholder="Tulis diskon produk jika ada" (ionChange)="inputChange(form.controls.diskon)"></ion-input>
+							</ion-item>
+							<ion-item class="ion-no-padding ion-margin-bottom o-visible" lines="none">
+								<ion-label color="primary" position="floating">Stok Produk</ion-label>
+								<div class="d-flex pt-1">
+									<ion-button color="primary" class="w-3" (click)="kurangiStok()">-</ion-button>
+									<ion-input formControlName="stok" type="number" placeholder="0" style="width: 50px; margin: 0 10px; border-bottom: 1px solid #999; text-align: center;"></ion-input>
+									<ion-button color="primary" class="w-3" (click)="tambahStok()">+</ion-button>
+								</div>
+							</ion-item>
+						</div>
+					</div>
+				</form>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

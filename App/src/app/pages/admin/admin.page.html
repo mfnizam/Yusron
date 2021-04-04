@@ -1,0 +1,25 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <!-- <ion-tab-button tab="beranda">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Beranda</ion-label>
+    </ion-tab-button> -->
+    <ion-tab-button tab="produk">
+      <ion-icon name="bag"></ion-icon>
+      <ion-label>Produk</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="pembelian" #pembelianTab>
+      <ion-icon name="reader"></ion-icon>
+      <ion-label>Penjualan</ion-label>
+      <ion-badge *ngIf="(jumlahMenunggu + jumlahProses) > 0" mode="ios" color="danger">{{jumlahMenunggu + jumlahProses}}</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="master">
+      <ion-icon name="albums"></ion-icon>
+      <ion-label>Master</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="akun">
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Akun</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

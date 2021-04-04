@@ -1,0 +1,22 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="beranda">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Beranda</ion-label>
+    </ion-tab-button>
+    <!-- <ion-tab-button tab="keranjang" #bayarTab>
+      <ion-icon name="cart"></ion-icon>
+      <ion-label>Keranjang</ion-label>
+      <ion-badge *ngIf="jumlahKeranjang > 0" mode="ios" color="danger">{{jumlahKeranjang}}</ion-badge>
+    </ion-tab-button> -->
+    <ion-tab-button tab="pengiriman" #pengirimanTab>
+      <ion-icon name="exit"></ion-icon>
+      <ion-label>Pengiriman</ion-label>
+      <ion-badge *ngIf="jumlahPengiriman > 0" mode="ios" color="danger">{{jumlahPengiriman}}</ion-badge>
+    </ion-tab-button>
+    <ion-tab-button tab="akun">
+      <ion-icon name="person-circle"></ion-icon>
+      <ion-label>Akun</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
