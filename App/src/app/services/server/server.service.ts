@@ -11,8 +11,9 @@ import { Capacitor } from '@capacitor/core';
 })
 export class ServerService {
 
-  // public serverUrl = 'https://projectkabeh.herokuapp.com/yusron/';
-  public serverUrl = 'http://192.168.0.101:3000/yusron/';
+  public serverUrl = 'https://projectkabeh.herokuapp.com/yusron/';
+  // public serverUrl = 'http://192.168.8.103:3000/yusron/'; // F4
+  // public serverUrl = 'http://192.168.0.101:3000/yusron/';
   // public serverUrl = 'http://10.209.25.230:3000/';
   // public serverUrl = 'http://192.168.1.70:3000/';
 
@@ -53,11 +54,40 @@ export class ServerService {
       let formData = new FormData();
       formData.append('foto', file, (fileName? fileName : 'foto-upload.jpeg'));
       for(let k in params){
-        formData.append(k, params[k]);
+        if(Array.isArray(params[k])){
+          params[k].forEach((v, i) => {
+            formData.append(k + '[' + i + ']', v);
+          })
+        }else{
+          formData.append(k, params[k]);
+        }
       }
       return this.postRequest(url, formData); 
     }
   }
+
+  async uploadMultipleRequest(url, imgUrl: any[], fileName?: any[], params?){
+    Object.keys(params).forEach(key => params[key] === undefined || params[key] === null ? delete params[key] : null);
+
+    let formData = new FormData();
+    let file = []
+    for(let i = 0; i < imgUrl.length; i++){
+      file.push(await fetch(imgUrl[i]).then(r => r.blob()));
+      formData.append('foto', file[i], (fileName[i]? fileName[i] : 'foto-upload.jpeg'));
+    }
+    for(let k in params){
+      if(Array.isArray(params[k])){
+        params[k].forEach((v, i) => {
+          formData.append(k + '[' + i + ']', v);
+        })
+      }else{
+        formData.append(k, params[k]);
+      }
+    }
+    return this.postRequest(url, formData); 
+  }
+
+
 
   // auth api
   public predaftar(eAn, nama, pass, isEmail){
@@ -158,17 +188,18 @@ export class ServerService {
     let url = this.serverUrl + 'api/admin/produk';
     return this.postRequest(url, {});
   }
-  public tambahProduk(data){
+  public tambahProduk(data, foto: any[], name?: any[]){
     let url = this.serverUrl + 'api/admin/produk/tambah';
-    return this.postRequest(url, data);
+    return this.uploadMultipleRequest(url, foto, name, data);
   }
   public hapusProduk(_id){
     let url = this.serverUrl + 'api/admin/produk/hapus';
     return this.postRequest(url, {_id});
   }
-  public editProduk(data){
+  public editProduk(data, foto: any[], name?: any[]){
     let url = this.serverUrl + 'api/admin/produk/edit';
-    return this.postRequest(url, data);
+    // return this.postRequest(url, data);
+    return this.uploadMultipleRequest(url, foto, name, data);
   }
 
   public ambilPembelian(status){

@@ -343,4 +343,7 @@ export class PembelianPage implements OnDestroy {
 	get jenisTitle(){
 		return this.pembelian.jenisTitle;
 	}
+	get otherServer(){
+		return this.server.otherServer;
+	}
 }

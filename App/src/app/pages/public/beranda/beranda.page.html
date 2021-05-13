@@ -40,34 +40,36 @@
 			</ion-col>
 		</ion-row> -->
 		<ion-row class="ion-padding">
-			<ion-col size="6" *ngFor="let u of dataProduk; let i = index;">
-				<ion-card mode="ios" class="ion-no-margin">
-					<div [routerLink]="['detail', {idProduk: u._id}]" class="pb-100 p-relative">
-						<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
-					</div>
-					<div class="p-1">
-						<div [routerLink]="['detail', {idProduk: u._id}]">
-							<div class="text-max text-max-2 mb-05" style="height: 32px;"><b>{{u.nama}}</b></div>
-							<div class="c-primary mb-1"><b><small>Rp.</small> {{u.harga | currency:' ':'symbol':'.0':'id'}},-</b></div>
+			<ion-col size="12">
+				<div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 20px;">
+					<ion-card *ngFor="let u of dataProduk; let i = index;" mode="ios" class="ion-no-margin">
+						<div [routerLink]="['detail', {idProduk: u._id}]" class="pb-100 p-relative">
+							<ion-img style="pointer-events:none" [src]="u.imgUrl?.length > 0? otherServer + u.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 						</div>
-						<div class="d-flex ion-align-items-center">
-							<div class="flex-1 d-flex ion-align-items-center">
-								<small>
-									<ion-icon name="star" color="warning" class="mr-05"></ion-icon> <b>{{u.rating? u.rating : 0 | number: '1.1'}} | Terjual {{u.terjual}}</b>
-								</small>
+						<div class="p-1">
+							<div [routerLink]="['detail', {idProduk: u._id}]">
+								<div class="text-max text-max-2 mb-05" style="height: 32px;"><b>{{u.nama}}</b></div>
+								<div class="c-primary mb-1"><b><small>Rp.</small> {{u.harga | currency:' ':'symbol':'.0':'id'}},-</b></div>
 							</div>
-							<div class="flex-shrink-0 d-flex ion-align-items-center">
-								<div *ngIf="!u.loading" class="d-flex ion-align-items-center" (click)="tambahKeranjang(i)">
-									<span class="c-primary">+</span>
-									<h3 class="ion-no-margin lh-0">
-										<ion-icon name="cart-outline" color="primary"></ion-icon>
-									</h3>
+							<div class="d-flex ion-align-items-center">
+								<div class="flex-1 d-flex ion-align-items-center">
+									<small>
+										<ion-icon name="star" color="warning" class="mr-05"></ion-icon> <b>{{u.rating? u.rating : 0 | number: '1.1'}} | Terjual {{u.terjual}}</b>
+									</small>
 								</div>
-								<ion-spinner *ngIf="u.loading" name="crescent" color="primary" style="height: 22px;"></ion-spinner>
+								<div class="flex-shrink-0 d-flex ion-align-items-center">
+									<div *ngIf="!u.loading" class="d-flex ion-align-items-center" (click)="tambahKeranjang(i)">
+										<span class="c-primary">+</span>
+										<h3 class="ion-no-margin lh-0">
+											<ion-icon name="cart-outline" color="primary"></ion-icon>
+										</h3>
+									</div>
+									<ion-spinner *ngIf="u.loading" name="crescent" color="primary" style="height: 22px;"></ion-spinner>
+								</div>
 							</div>
 						</div>
-					</div>
-				</ion-card>
+					</ion-card>
+				</div>
 			</ion-col>
 			<ion-col *ngIf="dataProduk.length < 1 || (dataProduk.length < 1 && produkLoading > 0)">
 				<ion-card mode="ios" class="ion-no-margin ion-padding o-hidden h-6r d-flex flex-column ion-align-items-center ion-justify-content-center">

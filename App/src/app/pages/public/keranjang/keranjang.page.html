@@ -12,7 +12,7 @@
 					<div class="d-flex">
 						<div class="w-5 flex-shrink-0">
 							<div class="pb-100 h-100 p-relative">
-								<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+								<ion-img style="pointer-events:none" [src]="p.produk?.imgUrl?.length > 0? otherServer + p.produk?.imgUrl[0] : 'https://via.placeholder.com/150'"  class="p-absolute w-100 h-100 of-cover"></ion-img>
 							</div>
 						</div>
 						<div class="flex-1 d-flex flex-column p-1">

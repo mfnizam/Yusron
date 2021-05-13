@@ -6,8 +6,8 @@
 			</ion-col>
 			<ion-col class="ion-text-capitalize text-max text-max-1 wp-nowrap">{{update? 'Edit' : 'Tambah'}} Produk</ion-col>
 			<ion-col size="auto">
-				<button form="formproduk" class="ion-no-padding ion-no-margin b-none d-flex ion-align-items-center ion-justify-content-center" [disabled]="form.invalid">
-					<ion-note color="primary" [style.opacity]="form.invalid? 0.2 : 1"><h4 class="ion-no-margin">Simpan</h4></ion-note>
+				<button form="formproduk" class="ion-no-padding ion-no-margin b-none d-flex ion-align-items-center ion-justify-content-center" [disabled]="form.invalid || photo.length < 1">
+					<ion-note color="primary" [style.opacity]="form.invalid || photo.length < 1? 0.2 : 1"><h4 class="ion-no-margin">Simpan</h4></ion-note>
 				</button>
 			</ion-col>
 		</ion-row>
@@ -15,13 +15,21 @@
 			<ion-col class="ion-no-padding">
 				<form [formGroup]="form" id="formproduk" (ngSubmit)="simpan()">
 					<div class="mb-2 p-gc" style="overflow-x: auto;">
-						<div class="ion-margin-start ion-margin-end" style="display: grid; grid-gap: 10px; grid-template-columns: repeat({{photo.length + 2}}, calc(50% - 40px));">
-							<div *ngFor="let p of photo; let f = first; let l = last" class="w-100 pb-100 p-relative">
+						<div class="ion-margin-start ion-margin-end" style="display: grid; column-gap: 10px; grid-template-columns: repeat({{photo.length + 2}}, calc(50% - 40px));">
+							<div *ngIf="photo.length < 1;" class="w-100 pb-100 p-relative">
 								<div class="p-absolute w-100 h-100 border-card b-primary-800 t-0 l-0 d-flex ion-align-items-center ion-justify-content-center">
 									<ion-icon icon="logo-buffer" color="primary" style="font-size: 40pt; opacity: .5;"></ion-icon>
 								</div>
 							</div>
-							<div class="w-100 pb-100 p-relative">
+							<div *ngFor="let p of photo; let i = index;" class="w-100 pb-100 p-relative">
+								<div class="p-absolute w-100 h-100 border-card b-primary-800 t-0 l-0 d-flex ion-align-items-center ion-justify-content-center o-hidden">
+									<ion-img [src]="p" class="w-100 h-100 of-cover"></ion-img>
+								</div>
+								<h3 class="p-absolute ion-no-margin d-flex r-05 t-05" (click)="hapusFoto(i)">
+									<ion-icon name="close-circle" color="danger"></ion-icon>
+								</h3>
+							</div>
+							<div *ngIf="photo.length < 4" class="w-100 pb-100 p-relative" (click)="unggahFotoProduk()">
 								<div class="p-absolute w-100 h-100 border-card border border-c-primary t-0 l-0 d-flex flex-column ion-justify-content-center c-primary ion-text-center ion-padding opacity-4">
 									<h3 class="ion-no-margin"><b>+</b></h3>
 									<div><b>Tambahkan Foto Produk</b></div>
@@ -72,9 +80,9 @@
 							<ion-item class="ion-no-padding ion-margin-bottom o-visible" lines="none">
 								<ion-label color="primary" position="floating">Stok Produk</ion-label>
 								<div class="d-flex pt-1">
-									<ion-button color="primary" class="w-3" (click)="kurangiStok()">-</ion-button>
+									<ion-button mode="ios" color="primary" class="w-3" (click)="kurangiStok()">-</ion-button>
 									<ion-input formControlName="stok" type="number" placeholder="0" style="width: 50px; margin: 0 10px; border-bottom: 1px solid #999; text-align: center;"></ion-input>
-									<ion-button color="primary" class="w-3" (click)="tambahStok()">+</ion-button>
+									<ion-button mode="ios" color="primary" class="w-3" (click)="tambahStok()">+</ion-button>
 								</div>
 							</ion-item>
 						</div>

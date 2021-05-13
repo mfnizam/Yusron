@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { ServerService } from '../../../../services/server/server.service';
+import { CameraService } from '../../../../services/camera/camera.service';
 import { ModalService } from '../../../../services/modal/modal.service';
 import { MasterService, Kategori } from '../../../../services/master/master.service';
 import { ProdukService, Produk } from '../../../../services/produk/produk.service';
@@ -28,13 +29,16 @@ export class CuPage implements OnDestroy{
     stok: new FormControl(1, [Validators.required]),
   })
 
-  photo = [1];
+  photo = [];
+  photoName = [];
+  photoOriginal = [];
   kategori: Kategori[] = [];
 
   constructor(
     private active: ActivatedRoute,
   	private navCtrl: NavController,
     private server: ServerService,
+    private camera: CameraService,
     private modal: ModalService,
     private master: MasterService,
     private produk: ProdukService
@@ -49,6 +53,9 @@ export class CuPage implements OnDestroy{
         this.form.addControl('_id', new FormControl(data['idProduk'], [Validators.required]));
         let produk = this.produk.getValueProduk().find(v => v._id == data['idProduk']);
         if(produk){
+          this.photo = produk.imgUrl.map(v => this.otherServer + v);
+          this.photoName = produk.imgUrl.map((v, i) => 'foto-' + i);
+          this.photoOriginal = this.photo;
           this.form.controls.nama.setValue(produk.nama);
           this.form.controls.harga.setValue(produk.harga);
           this.form.controls.kategori.setValue(produk.kategori?._id? produk.kategori._id : produk.kategori);
@@ -85,11 +92,25 @@ export class CuPage implements OnDestroy{
   	this.navCtrl.back();
   }
 
+  unggahFotoProduk(p?){
+    this.camera.camera('camera').then(async data => {
+      console.log(data, 'data from camera')
+      this.photo = [...this.photo, data.webPath];
+      this.photoName = [...this.photoName, 'foto-' + this.photoName.length];
+    })
+  }
+
+  hapusFoto(i){
+    this.photo.splice(i, 1)
+    this.photoName.splice(i, 1)
+  }
+
   simpan(){
     this.modal.showLoading('Menyimpan data produk...');
 
     if(this.update){
-      this.server.editProduk(this.form.value).then(data => {
+      this.form.value['imgUrl'] = this.photo.filter(v => this.photoOriginal.includes(v)).map(v => v.split(this.otherServer)[1]);
+      this.server.editProduk(this.form.value, this.photo.filter(v => !this.photoOriginal.includes(v)), this.photoName).then(data => {
         this.modal.hideLoading();
         console.log(data)
         if(data.success){
@@ -107,7 +128,7 @@ export class CuPage implements OnDestroy{
         console.log(err)
       })
     }else{
-      this.server.tambahProduk(this.form.value).then(data => {
+      this.server.tambahProduk(this.form.value, this.photo, this.photoName).then(data => {
         this.modal.hideLoading();
         console.log(data)
         if(data.success){
@@ -138,6 +159,10 @@ export class CuPage implements OnDestroy{
 
   inputChange(v){
     console.log(v)
+  }
+
+  get otherServer(){
+    return this.server.otherServer;
   }
 
 }

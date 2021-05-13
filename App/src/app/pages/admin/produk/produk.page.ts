@@ -81,4 +81,8 @@ export class ProdukPage implements OnDestroy{
       }
     })
   }
+
+  get otherServer(){
+    return this.server.otherServer;
+  }
 }

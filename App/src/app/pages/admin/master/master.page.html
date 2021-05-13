@@ -121,11 +121,11 @@
 			</ion-col>
 		</ion-row>
 		<ion-row class="ion-padding-start ion-padding-end ion-margin-bottom">
-			<ion-col size="6" *ngFor="let k of dataRekening | slice:0:4" [routerLink]="['/admin/master/detail', { jenis: 'rekening', id: k._id }]">
+			<ion-col size="6" *ngFor="let k of dataRekening | slice:0:4">
 				<ion-card mode="ios" class="ion-no-margin ion-padding">
 					<div><b>{{k.namaBank || '-'}}</b></div>
 					<div><b>{{k.noRek || '-'}}</b></div>
-					<ion-note color="primary"><small>{{k.atasNama || '-'}}</small></ion-note>
+					<small><span class="opacity-3">A/N</span>&nbsp;<span class="c-primary">{{k.atasNama || '-'}}</span></small>
 				</ion-card>
 			</ion-col>
 			<ion-col *ngIf="dataRekening.length < 1 || (dataRekening.length < 1 && rekeningLoading > 0)" size="12" class="h-6r">

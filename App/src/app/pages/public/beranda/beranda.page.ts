@@ -125,4 +125,8 @@ export class BerandaPage implements OnDestroy {
       })
     }
   }
+
+  get otherServer(){
+    return this.server.otherServer;
+  }
 }

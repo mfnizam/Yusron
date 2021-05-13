@@ -153,4 +153,7 @@ export class PembelianPage implements OnDestroy{
 	get statusTitle(){
 		return this.pembelian.statusTitle;
 	}
+	get otherServer(){
+		return this.server.otherServer;
+	}
 }

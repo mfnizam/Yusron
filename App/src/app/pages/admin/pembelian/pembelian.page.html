@@ -164,7 +164,7 @@
 								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
-											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+											<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 										</div>
 									</div>
 									<div>
@@ -218,7 +218,7 @@
 								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
-											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+											<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 										</div>
 									</div>
 									<div>
@@ -272,7 +272,7 @@
 								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
-											<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+											<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 										</div>
 									</div>
 									<div>
@@ -327,7 +327,7 @@
 									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 											<div class="pb-100 h-100 p-relative">
-												<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+												<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 											</div>
 										</div>
 										<div>
@@ -388,7 +388,7 @@
 									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 											<div class="pb-100 h-100 p-relative">
-												<ion-img style="pointer-events:none" src="https://via.placeholder.com/150" class="p-absolute w-100 h-100 of-cover"></ion-img>
+												<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
 											</div>
 										</div>
 										<div>

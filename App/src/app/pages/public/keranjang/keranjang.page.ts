@@ -187,4 +187,8 @@ export class KeranjangPage implements OnDestroy{
     //   this.modal.showToast('Gagal Melakukan Topup', 'danger')
     })
   }
+
+  get otherServer(){
+    return this.server.otherServer;
+  }
 }
