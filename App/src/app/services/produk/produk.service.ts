@@ -7,10 +7,13 @@ export class Produk{
 	_id: string;
 	imgUrl: string[];
 	nama: string;
+	deskripsi: string;
 	harga: number;
 	kategori: Kategori;
 	diskon?: number;
 	stok: number;
+	rating: number;
+	terjual: number;
 }
 
 export class Keranjang{

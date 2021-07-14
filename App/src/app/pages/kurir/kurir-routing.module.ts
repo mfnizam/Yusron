@@ -21,7 +21,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'beranda',
+        redirectTo: 'pengiriman',
         pathMatch: 'full'
       }
     ]
@@ -32,12 +32,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'beranda',
+    redirectTo: 'pengiriman',
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'beranda',
+    redirectTo: 'pengiriman',
   },
 ];
 

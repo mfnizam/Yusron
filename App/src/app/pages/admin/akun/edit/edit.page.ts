@@ -43,7 +43,7 @@ export class EditPage {
       if(data._id) this.form.controls.idUser.setValue(data._id);
       if(data.namaLengkap) this.form.controls.namaLengkap.setValue(data.namaLengkap);
       if(data.noTlp) this.form.controls.noTlp.setValue(data.noTlp);
-      if(data.jenisKelamin) this.form.controls.jenisKelamin.setValue(data.jenisKelamin);
+      if(data.jenisKelamin != null || data.jenisKelamin != undefined) this.form.controls.jenisKelamin.setValue(data.jenisKelamin);
       if(data.email) this.form.controls.email.setValue(data.email);
     })
   }
@@ -63,9 +63,12 @@ export class EditPage {
         this.storage.setStorage('user:data', data.token).then(data => {
           this.storage.getDecodedStorage('user:data').then((data: any) => {
             this.user.setDataUser(data);
-            this.goBack();
           })
         })
+        setTimeout(_ => {
+          this.goBack();
+        }, 500)
+        this.modal.showToast('Sukses Menyimpan Data', 'success', 2000, 'bottom', false, true);
       }else{
         this.modal.showToast('Gagal Menyimpan Data, Coba beberapa saat lagi.', 'danger');
       }

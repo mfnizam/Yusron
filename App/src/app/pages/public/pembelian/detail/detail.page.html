@@ -4,7 +4,80 @@
 			<ion-col size="auto" class="d-none back-btn">
 				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
 			</ion-col>
-			<ion-col class="ion-text-capitalize text-max text-max-1 wp-nowrap">Detail Pembelian</ion-col>
+			<ion-col class="ion-text-capitalize text-max text-max-1 wp-nowrap">Detail {{dataPembelian?.jenis == 2? 'Topup' : 'Pembelian' }}</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-list>
+					<ion-item class="ion-no-padding">
+						<small class="flex-1">Status</small>
+						<div class="mt-1">
+							<ion-text [color]="dataPembelian && dataPembelian?.status > -1? statusColor[dataPembelian.status] : 'dark'"><b>{{dataPembelian && dataPembelian?.status > -1? statusTitle[dataPembelian.status] : '-'}}</b></ion-text>
+						</div>
+					</ion-item>
+					<ion-item class="ion-no-padding">
+						<small class="flex-1">Tanggal Pemesanan</small>
+						<div>{{dataPembelian?.waktuPembelian | date:'dd MMM yyyy - hh:mm'}}</div>
+					</ion-item>
+					<ion-item class="ion-no-padding">
+						<small class="flex-1">Invoice</small>
+						<div>{{dataPembelian?.invoice || '-'}}</div>
+					</ion-item>
+					<ion-item class="ion-no-padding" *ngIf="dataPembelian?.jenis == 2">
+						<small class="flex-1">Rekening bayar</small>
+						<div>{{dataPembelian?.rekening.namaBank || dataPembelian?.rekeningBackup.namaBank}} - {{dataPembelian?.rekening.noRek || dataPembelian?.rekeningBackup.noRek}}</div>
+					</ion-item>
+					<ion-item *ngIf="dataPembelian?.jenis == 2" class="ion-no-padding">
+						<small class="flex-1">Total Topup</small>
+						<div><b>Rp. {{dataPembelian?.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+					</ion-item>
+				</ion-list>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="dataPembelian?.jenis == 2 && dataPembelian?.status < 3 && dataPembelian?.status != 1" class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-button mode="ios" color="primary" class="w-100 ion-no-margin" (click)="unggahBuktiPembayaran(dataPembelian)">Unggah {{dataPembelian?.status == 2? 'Ulang' : ''}} Bukti Pembayaran</ion-button>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="dataPembelian?.jenis == 1" class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-padding">
+					<div class="mb-1"><b class="c-medium">Daftar Produk</b></div>
+					<div *ngIf="dataPembelian?.jenis == 1">
+						<div *ngFor="let pp of dataPembelian?.produk; let l = last" class="d-flex mt-1" [class.mb-1]="!l">
+							<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
+								<div class="pb-100 h-100 p-relative">
+									<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
+								</div>
+							</div>
+							<div>
+								<div class="text-max text-max-2 mb-05"><b>{{pp.produk?.nama || '-'}}</b></div>
+								<div class="c-primary"><small><b>Rp. {{pp.produk.harga | currency:' ':'symbol':'.0':'id'}},-</b></small></div>
+								<small>{{pp.jumlah}} Barang</small>
+							</div>
+						</div>
+					</div>
+				</ion-card>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="dataPembelian?.jenis == 1" class="ion-padding-start ion-padding-end">
+			<ion-col>
+				<ion-card mode="ios" class="ion-no-margin ion-padding">
+					<div class="mb-1"><b class="c-medium">Detail</b></div>
+					<div *ngIf="(dataPembelian?.status > 4 && dataPembelian?.kurir)" class="mb-1">
+						<div><small>Kurir <span *ngIf="dataPembelian?.waktuPenyelesaian" class="c-primary">- Terkirim - {{dataPembelian?.waktuPenyelesaian | date:'dd MMM yyyy - hh:mm'}}</span></small></div>
+						<div class="ion-text-capitalize"><b>{{dataPembelian?.kurir?.namaLengkap}} - {{dataPembelian?.kurir?.noTlp}}</b></div>
+					</div>
+					<div>
+						<small>Total {{jenisTitle[dataPembelian?.jenis]}}</small>
+						<div><b>Rp. {{dataPembelian?.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
+					</div>
+					<div *ngIf="dataPembelian?.status == 5" class="d-flex flex-column ion-align-items-center mt-1">
+						<ion-button color="primary" class="w-100" (click)="verifikasiPembelian(dataPembelian)">Verifikasi Pembelian</ion-button>
+						<small class="opacity-3 ion-text-center">verifikasi pembelian anda dengan scan QR Code pada kurir setelah anda menerima barang pembelian anda</small>
+					</div>
+				</ion-card>
+			</ion-col>
 		</ion-row>
 	</ion-grid>
 </ion-content>

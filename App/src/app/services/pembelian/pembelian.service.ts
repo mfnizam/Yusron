@@ -38,6 +38,7 @@ export class Pembelian{
 	waktuPelunasan: Date;
 	waktuPembelian: Date;
 	waktuPenyelesaian: Date;
+	kurir: any;
 }
 
 @Injectable({
@@ -67,6 +68,7 @@ export class PembelianService {
 	dataBatal_ = this.dataBatal.asObservable();
 
 	public statusTitle = ['Menunggu Pembayaran', 'Menunggu Verifikasi', 'Upload Ulang Bukti', 'Pesanan Diproses', 'Siap Dikirim', 'Sedang Dikirim', 'Selesai', 'Gagal']
+	public statusTitlePelanggan = ['Menunggu Pembayaran', 'Menunggu Verifikasi', 'Upload Ulang Bukti', 'Pesanan Diproses', 'Pesanan Diproses', 'Sedang Dikirim', 'Selesai', 'Gagal']
 	public statusColor = ['warning', 'medium', 'warning', 'primary', 'primary', 'primary', 'success', 'danger']
 	public jenisTitle = ['', 'Belanja', 'Topup'];
 	public jenisIcon = ['', 'bag-outline', 'cash-outline'];

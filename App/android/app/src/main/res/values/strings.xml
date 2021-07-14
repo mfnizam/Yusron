@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Yusron</string>
-    <string name="title_activity_main">Yusron</string>
+    <string name="app_name">Toko Online</string>
+    <string name="title_activity_main">Toko Online</string>
     <string name="package_name">com.mfnizam.yusronshop</string>
     <string name="custom_url_scheme">com.mfnizam.yusronshop</string>
 </resources>

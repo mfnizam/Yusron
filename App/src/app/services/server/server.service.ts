@@ -84,10 +84,9 @@ export class ServerService {
         formData.append(k, params[k]);
       }
     }
-    return this.postRequest(url, formData); 
+    // return this.postRequest(url, formData); 
+    return this.httpClient.post(url, formData).toPromise().then((data : any) => { return data;})
   }
-
-
 
   // auth api
   public predaftar(eAn, nama, pass, isEmail){
@@ -200,6 +199,10 @@ export class ServerService {
     let url = this.serverUrl + 'api/admin/produk/edit';
     // return this.postRequest(url, data);
     return this.uploadMultipleRequest(url, foto, name, data);
+  }
+  public editStok(data){
+    let url = this.serverUrl + 'api/admin/produk/edit/stok';
+    return this.postRequest(url, data); 
   }
 
   public ambilPembelian(status){

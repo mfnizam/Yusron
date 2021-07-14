@@ -87,7 +87,7 @@ export class TopupPage implements OnDestroy{
   		if(data.success){
   			this.pembelian.setDataPembelian([...this.pembelian.getValuePembelian(), data.pembelian]);
   			setTimeout(_ => {
-  				this.router.navigate(['/public/pembelian/detail', {idPembelian: data._id}], { replaceUrl: true })
+  				this.router.navigate(['/public/pembelian/detail', {idPembelian: data.pembelian._id}], { replaceUrl: true })
   			}, 500)
   		}else{
   			this.modal.showToast('Gagal Melakukan Topup', 'danger')

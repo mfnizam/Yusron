@@ -101,7 +101,7 @@ export class PembelianPage implements OnDestroy{
 				if(mdata.role == 'ok'){
 					this.modal.showLoading('Menyimpan Bukti Pengambilan Barang...');
 					this.server.pengambilanBuktiUpload(data.path? data.path : data.webPath, 'bp'+ p._id, {
-						idUser: p.user,
+						idUser: p.user._id,
 						idPembelian: p._id,
 					}).then(data => {
 						console.log(data);

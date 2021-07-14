@@ -50,7 +50,7 @@ export class BerandaPage implements OnDestroy {
 
   ambilProduk(){
     this.produkLoading = 1;
-    this.server.ambilProduk().then(data => {
+    this.server.produk(this.dataUser).then(data => {
       console.log(data)
       if(data.success){
         this.produkLoading = 0;

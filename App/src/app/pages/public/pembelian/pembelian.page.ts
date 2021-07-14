@@ -163,8 +163,8 @@ export class PembelianPage implements OnDestroy{
 	get statusColor(){
 		return this.pembelian.statusColor
 	}
-	get statusTitle(){
-		return this.pembelian.statusTitle;
+	get statusTitlePelanggan(){
+		return this.pembelian.statusTitlePelanggan;
 	}
 
 	get otherServer(){

@@ -53,10 +53,12 @@
 								<ion-label color="primary" position="floating">Nama Produk*</ion-label>
 								<ion-input formControlName="nama" placeholder="Tulis nama produk"></ion-input>
 							</ion-item>
-							<!-- <ion-item class="ion-no-padding ion-margin-bottom">
-								<ion-label color="primary" position="floating">Harga*</ion-label>
-								<ion-input formControlName="harga" placeholder="Tulis harga produk"></ion-input>
-							</ion-item> -->
+							<ion-item class="ion-no-padding ion-margin-bottom">
+								<ion-label color="primary" position="floating">Deskripsi Produk*</ion-label>
+								<!-- <ion-input formControlName="nama" placeholder="Tulis nama produk"></ion-input> -->
+								<ion-textarea formControlName="deskripsi" autoGrow="true" type="text" placeholder="Tulis deskripsi produk"></ion-textarea>
+							</ion-item>
+
 							<ion-item class="ion-no-padding ion-margin-bottom" [ngClass]="(form.controls.harga.invalid) && (form.controls.harga.dirty || form.controls.harga.touched)? 'item-interactive ion-invalid ion-pristine ion-touched' : ''">
 								<div class="currency">
 									<ion-note color="primary" class="label">Harga</ion-note>

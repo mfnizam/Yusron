@@ -63,13 +63,14 @@
 								</div>
 								<div class="flex-shrink-0">
 									<ion-chip [color]="statusColor[p.status]" outline class="ion-no-margin">
-										<ion-label>{{statusTitle[p.status]}}</ion-label>
+										<ion-label>{{statusTitlePelanggan[p.status]}}</ion-label>
 									</ion-chip>
 								</div>
 								<!-- <div class="flex-shrink-0 d-flex">
 									<ion-icon name="ellipsis-vertical"></ion-icon>
 								</div> -->
 							</div>
+							<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 							<div *ngIf="p.jenis == 1">
 								<div *ngFor="let pp of p.produk | slice:0:2" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
@@ -104,6 +105,7 @@
 								<ion-button color="primary" class="w-100" (click)="verifikasiPembelian(p)">Verifikasi Pembelian</ion-button>
 								<small class="opacity-3 ion-text-center">verifikasi pembelian anda dengan scan QR Code pada kurir setelah anda menerima barang pembelian anda</small>
 							</div>
+							<div [routerLink]="['detail', {idPembelian: p._id}]" class="c-primary mt-1 ion-text-center"><b>Lihat Detail Pembelian</b></div>
 						</ion-card>
 					</div>	
 				</div>

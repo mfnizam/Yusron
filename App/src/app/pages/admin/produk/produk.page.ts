@@ -59,6 +59,7 @@ export class ProdukPage implements OnDestroy{
 
   openPopover(event, id, nama){
     this.modal.showPopover(event, false).then(data => {
+      console.log(data)
       if(data.role == 'edit'){
         this.router.navigate(['cu', { update: true, idProduk: id}], {relativeTo: this.active})
       }else if(data.role == 'hapus'){
@@ -67,13 +68,41 @@ export class ProdukPage implements OnDestroy{
             this.server.hapusProduk(id).then(data => {
               console.log(data)
               if(data.success){
-                this.modal.showToast('Berhasil Menghapus Proudk', 'success')
+                this.modal.showToast('Berhasil Menghapus Proudk', 'success', 2000, 'bottom', false, true)
                 this.produk.setDataProduk(this.produk.getValueProduk().filter(v => v._id != id))
               }else {
-                this.modal.showToast('Gagal Menghapus Proudk', 'danger')
+                this.modal.showToast('Gagal Menghapus Proudk', 'danger', 2000, 'bottom', false, true)
               }
             }).catch(err => {
-              this.modal.showToast('Gagal Menghapus Proudk', 'danger');
+              this.modal.showToast('Gagal Menghapus Proudk', 'danger', 2000, 'bottom', false, true);
+              console.log(err);
+            })
+          }
+        })
+      }else if(data.role == 'stok'){
+        this.modal.showPrompt('Ubah Stok', 'Ubah stok produk <b>"' + nama + '"</b>', [{
+          name: 'stok',
+          type: 'number',
+          placeholder: 'Isikan stock saat ini'
+        }]).then(data => {
+          console.log(data)
+          if(data?.data?.values?.stok){
+            this.modal.showLoading('Menyimpan stok...');
+            this.server.editStok({_id: id, stok: data.data.values.stok}).then(data => {
+              console.log(data)
+              this.modal.hideLoading();
+              if(data.success){
+                this.modal.showToast('Berhasil mengubah stok', 'success', 2000, 'bottom', false, true);
+                this.produk.setDataProduk(this.produk.getValueProduk().map(v => {
+                  if(v._id == id) v.stok = data.produk.stok;
+                  return v;
+                }))
+              }else{
+                this.modal.showToast('Gagal mengubah stok', 'danger', 2000, 'bottom', false, true);
+              }
+            }).catch(err => {
+              this.modal.hideLoading();
+              this.modal.showToast('Gagal mengubah stok', 'danger', 2000, 'bottom', false, true);
               console.log(err);
             })
           }

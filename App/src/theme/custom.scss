@@ -26,6 +26,7 @@
 //color
 .c-primary{color: var(--ion-color-primary);	}
 .c-primary-100{color: var(--ion-color-primary-100);	}
+.c-medium{color: var(--ion-color-medium);	}
 .c-medium-tint{color: var(--ion-color-medium-tint);	}
 .c-light{color: var(--ion-color-light)}
 .c-danger{color: var(--ion-color-danger)}
@@ -144,9 +145,9 @@
 .border-05 { border-radius: .3rem }
 
 //text
-.wp-nowrap{
-	white-space: nowrap;
-}
+.wp-nowrap{white-space: nowrap;}
+.wp-prewrap{ white-space: pre-wrap;}
+
 //text max line
 .text-max{
 	overflow: hidden; 

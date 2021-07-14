@@ -1,10 +1,51 @@
 <ion-content class="ion-padding-top ion-padding-bottom">
 	<ion-grid class="px-0">
 		<ion-row class="header-title mb-1 ion-padding-start ion-padding-end ion-margin-bottom ion-align-items-center">
-			<ion-col size="auto" class="d-none back-btn">
+			<ion-col size="auto" class="d-none back-btn ion-no-padding">
 				<ion-icon name="arrow-back" (click)="goBack()"></ion-icon>
 			</ion-col>
 			<ion-col class="ion-text-capitalize text-max text-max-1 wp-nowrap">Detail Produk</ion-col>
+			<!-- <ion-col size="auto">
+				<div class="flex-shrink-0">
+					<h2 class="ion-no-margin" [style.opacity]="dataProduk? 1 : .3">
+						<ion-icon [routerLink]="['/admin/produk/cu', { update: true, idProduk: dataProduk?._id}]" name="create-outline" class="mr-2"></ion-icon>
+						<ion-icon name="trash-outline" color="danger" (click)="hapus()"></ion-icon>
+					</h2>
+				</div>
+			</ion-col> -->
+		</ion-row>
+		<ion-row>
+			<ion-col class="ion-no-padding">
+				<div class="p-gc" style="overflow-x: auto;">
+					<div class="ion-margin-start ion-margin-end" style="display: grid; column-gap: 10px; grid-template-columns: repeat({{dataProduk?.imgUrl?.length < 2? 1 : dataProduk?.imgUrl?.length + 2}}, {{dataProduk?.imgUrl?.length < 2? '100%' : 'calc(100% - 40px)'}});">
+						<div *ngFor="let p of dataProduk?.imgUrl; let i = index;" class="w-100 pb-100 p-relative">
+							<div class="p-absolute w-100 h-100 border-card b-primary-800 t-0 l-0 d-flex ion-align-items-center ion-justify-content-center o-hidden">
+								<ion-img [src]="otherServer + p" class="w-100 h-100 of-cover"></ion-img>
+							</div>
+						</div>
+						<div style="width: 14px;"></div>
+					</div>
+				</div>
+			</ion-col>
+		</ion-row>
+		<ion-row *ngIf="dataProduk" class="ion-margin-start ion-margin-end">
+			<ion-col>
+				<div class="opacity-3 mb-2"><small>{{dataProduk?.kategori.title}}</small></div>
+				<div class="mb-1"><b>{{dataProduk?.nama}}</b></div>
+				<div><h3 class="ion-no-margin c-primary mb-05"><b>Rp. {{dataProduk?.harga | currency:' ':'symbol':'.0':'id'}},-</b></h3></div>
+				<div class="mb-2">
+					<small class="d-flex ion-align-items-center">
+						<!-- <ion-icon name="star" color="warning" class="mr-05"></ion-icon> <b>{{(dataProduk?.rating || 0) | number: '1.1'}} | Terjual {{dataProduk?.terjual}}</b> -->
+						<b>Terjual {{dataProduk?.terjual}}</b>
+					</small>
+				</div>
+				<div class="mb-2 wp-prewrap">{{dataProduk?.deskripsi}}</div>
+				<div class="mb-1 d-flex ion-align-items-center">
+					<div class="mr-1">
+						<span class="opacity-3">Stok:</span>&nbsp;<b>{{dataProduk?.stok || 0}}</b>
+					</div>
+				</div>
+			</ion-col>
 		</ion-row>
 	</ion-grid>
 </ion-content>

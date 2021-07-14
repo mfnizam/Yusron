@@ -22,7 +22,9 @@ export class CuPage implements OnDestroy{
 
   update = false;
   form: FormGroup = new FormGroup({
+    _id: new FormControl(null),
     nama: new FormControl(null, [Validators.required]),
+    deskripsi: new FormControl(null, [Validators.required]),
     harga: new FormControl(null, [Validators.required]),
     kategori: new FormControl(null, [Validators.required]),
     diskon: new FormControl(null, [Validators.max(100), Validators.min(0)]),
@@ -50,18 +52,21 @@ export class CuPage implements OnDestroy{
       this.update = data['update'] == 'true'? true : false;
 
       if(this.update){
-        this.form.addControl('_id', new FormControl(data['idProduk'], [Validators.required]));
-        let produk = this.produk.getValueProduk().find(v => v._id == data['idProduk']);
-        if(produk){
-          this.photo = produk.imgUrl.map(v => this.otherServer + v);
-          this.photoName = produk.imgUrl.map((v, i) => 'foto-' + i);
-          this.photoOriginal = this.photo;
-          this.form.controls.nama.setValue(produk.nama);
-          this.form.controls.harga.setValue(produk.harga);
-          this.form.controls.kategori.setValue(produk.kategori?._id? produk.kategori._id : produk.kategori);
-          this.form.controls.diskon.setValue(produk.diskon);
-          this.form.controls.stok.setValue(produk.stok);
-        }
+        this.form.get('_id').setValue(data['idProduk']);
+        this.form.get('_id').setValidators([Validators.required]);
+        
+        // let produk = this.produk.getValueProduk().find(v => v._id == data['idProduk']);
+        // if(produk){
+        //   this.photo = produk.imgUrl.map(v => this.otherServer + v);
+        //   this.photoName = produk.imgUrl.map((v, i) => 'foto-' + i);
+        //   this.photoOriginal = this.photo;
+        //   this.form.controls.nama.setValue(produk.nama);
+        //   this.form.controls.deskripsi.setValue(produk.deskripsi);
+        //   this.form.controls.harga.setValue(produk.harga);
+        //   this.form.controls.kategori.setValue(produk.kategori?._id? produk.kategori._id : produk.kategori);
+        //   this.form.controls.diskon.setValue(produk.diskon);
+        //   this.form.controls.stok.setValue(produk.stok);
+        // }
       }
     })
 
@@ -80,6 +85,23 @@ export class CuPage implements OnDestroy{
       }).catch(err => {
         console.log(err)
       })
+    }
+  }
+
+  ionViewDidEnter(){
+    if(this.update){
+      let produk = this.produk.getValueProduk().find(v => v._id == this.form.get('_id').value);
+      if(produk){
+        this.photo = produk.imgUrl.map(v => this.otherServer + v);
+        this.photoName = produk.imgUrl.map((v, i) => 'foto-' + i);
+        this.photoOriginal = this.photo;
+        this.form.controls.nama.setValue(produk.nama);
+        this.form.controls.deskripsi.setValue(produk.deskripsi);
+        this.form.controls.harga.setValue(produk.harga);
+        this.form.controls.kategori.setValue(produk.kategori?._id? produk.kategori._id : produk.kategori);
+        this.form.controls.diskon.setValue(produk.diskon);
+        this.form.controls.stok.setValue(produk.stok);
+      }
     }
   }
 
@@ -106,7 +128,8 @@ export class CuPage implements OnDestroy{
   }
 
   simpan(){
-    this.modal.showLoading('Menyimpan data produk...');
+    this.modal.showLoading('Menyimpan data produk...', false, 0);
+    // if(true) return console.log(this.form.value);
 
     if(this.update){
       this.form.value['imgUrl'] = this.photo.filter(v => this.photoOriginal.includes(v)).map(v => v.split(this.otherServer)[1]);
@@ -114,7 +137,7 @@ export class CuPage implements OnDestroy{
         this.modal.hideLoading();
         console.log(data)
         if(data.success){
-          this.modal.showToast('Berhasil Menambahkan Produk', 'success');
+          this.modal.showToast('Berhasil Menambahkan Produk', 'success', 2000, 'bottom', false, true);
           this.produk.setDataProduk(this.produk.getValueProduk().map(v => v._id == data.produk._id? data.produk : v));
           setTimeout(_ => {
             this.goBack();
@@ -132,7 +155,7 @@ export class CuPage implements OnDestroy{
         this.modal.hideLoading();
         console.log(data)
         if(data.success){
-          this.modal.showToast('Berhasil Menambahkan Produk', 'success');
+          this.modal.showToast('Berhasil Menambahkan Produk', 'success', 2000, 'bottom', false, true);
           this.produk.setDataProduk([...this.produk.getValueProduk(), data.produk]);
           setTimeout(_ => {
             this.goBack();

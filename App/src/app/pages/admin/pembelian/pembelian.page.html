@@ -76,9 +76,15 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div class="mb-1">
 									<div class="mt--05"><small>Dikirim ke rekening</small></div>
 									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
+								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Pembeli</small></div>
+									<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+									<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
 								</div>
 								<div class="d-flex ion-align-items-center" style="height: 32px;">
 									<div class="flex-1">
@@ -117,9 +123,15 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div class="mb-1">
 									<div class="mt--05"><small>Dikirim ke rekening</small></div>
 									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
+								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Pembeli</small></div>
+									<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+									<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
 								</div>
 								<div class="d-flex ion-align-items-center" style="height: 32px;">
 									<div class="flex-1">
@@ -161,7 +173,8 @@
 										</ion-chip>
 									</div>
 								</div>
-								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
+								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-2 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
 											<ion-img style="pointer-events:none" [src]="pp.produk?.imgUrl?.length > 0? otherServer + pp.produk?.imgUrl[0] : 'https://via.placeholder.com/150'" class="p-absolute w-100 h-100 of-cover"></ion-img>
@@ -173,6 +186,11 @@
 									</div>
 								</div>
 								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Pembeli</small></div>
+									<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+									<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
+								</div>
 								<div class="d-flex ion-align-items-center mb-2" style="height: 32px;">
 									<div class="flex-1">
 										<small>Total {{jenisTitle[p.jenis]}}</small>
@@ -215,6 +233,7 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
@@ -230,7 +249,12 @@
 
 								<div class="mb-1">
 									<div><small>Kurir</small></div>
-									<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+									<div><b>{{p.kurir?.namaLengkap}} {{p.kurir?.noTlp? ' - ' + p.kurir?.noTlp : ''}}</b></div>
+								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Pembeli</small></div>
+									<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+									<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
 								</div>
 								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
 									<div class="flex-1">
@@ -269,6 +293,7 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 									<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
 										<div class="pb-100 h-100 p-relative">
@@ -282,10 +307,16 @@
 								</div>
 								<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
 
-								<div class="mb-1">
+								<div *ngIf="p.kurir" class="mb-1">
 									<div><small>Kurir</small></div>
-									<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+									<div><b>{{p.kurir?.namaLengkap}} {{p.kurir?.noTlp? ' - ' + p.kurir?.noTlp : ''}}</b></div>
 								</div>
+								<div class="mb-1">
+									<div class="mt--05"><small>Pembeli</small></div>
+									<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+									<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
+								</div>
+
 								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
 									<div class="flex-1">
 										<small>Total {{jenisTitle[p.jenis]}}</small>
@@ -323,6 +354,7 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div *ngIf="p.jenis == 1">
 									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
@@ -338,15 +370,26 @@
 									<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
 									<div class="mb-1">
 										<div><small>Kurir</small></div>
-										<div><b>{{p.kurir?.namaLengkap || '-'}} - {{p.kurir?.noTlp || '-'}}</b></div>
+										<div><b>{{p.kurir?.namaLengkap}} {{p.kurir?.noTlp? ' - ' + p.kurir?.noTlp : ''}}</b></div>
+									</div>
+									<div class="mb-1">
+										<div class="mt--05"><small>Pembeli</small></div>
+										<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+										<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
 									</div>
 								</div>
 
 								<div *ngIf="p.jenis == 2" class="mb-1">
+									<div class="mb-1">
+										<div class="mt--05"><small>Pembeli</small></div>
+										<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+										<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
+									</div>
 									<div class="mt--05"><small>Dikirim ke rekening</small></div>
 									<div><b>{{p.rekening.namaBank || p.rekeningBackup.namaBank}} - {{p.rekening.noRek || p.rekeningBackup.noRek}}</b></div>
 								</div>
-								<div class="d-flex ion-align-items-center mb-1" style="height: 32px;">
+								
+								<div class="d-flex ion-align-items-center" style="height: 32px;">
 									<div class="flex-1">
 										<small>Total {{jenisTitle[p.jenis]}}</small>
 										<div><b>Rp. {{p.jumlah | currency:' ':'symbol':'.0':'id'}},-</b></div>
@@ -384,6 +427,7 @@
 										</ion-chip>
 									</div>
 								</div>
+								<small class="text-max text-max-1 mb-1 c-primary">{{p.invoice}}</small>
 								<div *ngIf="p.jenis == 1">
 									<div *ngFor="let pp of p.produk | slice:0:2; let i = index;" class="d-flex mb-1 mt-1">
 										<div class="w-4 flex-shrink-0 border-card o-hidden mr-1">
@@ -397,8 +441,18 @@
 										</div>
 									</div>
 									<div *ngIf="p.produk.length > 2" class="mb-1"><small>+{{p.produk.length - 2}} Produk Lainnya</small></div>
+									<div class="mb-1">
+										<div class="mt--05"><small>Pembeli</small></div>
+										<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+										<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
+									</div>
 								</div>
 								<div *ngIf="p.jenis == 2" class="mb-1">
+									<div class="mb-1">
+										<div class="mt--05"><small>Pembeli</small></div>
+										<div class="ion-text-capitalize"><b>{{p.user?.namaLengkap || '-'}}</b></div>
+										<div class="ion-text-capitalize"><b><small>{{p.user?.alamat || '-'}}</small></b></div>
+									</div>
 									<div><small>Dikirim ke rekening</small></div>
 									<div><b>{{p.rekening.namaBank}} - {{p.rekening.noRek}}</b></div>
 								</div>

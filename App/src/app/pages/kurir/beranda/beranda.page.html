@@ -43,7 +43,7 @@
 				<ion-card mode="ios" class="ion-no-margin ion-padding o-hidden h-6r d-flex flex-column ion-align-items-center ion-justify-content-center">
 					<div class="ion-text-center">
 						<h6 class="ion-no-margin c-medium-tint">
-							{{kirimLoading == 1? 'Memuat Data Pembelian Yang Belum Dikirim..' : kirimLoading == 0? 'Data Pembelian Belum Yang Dikirim Kosong' : 'Gagal Memuat Data Pembelian Yang Belum Dikirim'}}
+							{{kirimLoading == 1? 'Memuat Data Pembelian Yang Belum Dikirim..' : kirimLoading == 0? 'Data Pembelian Yang Belum Dikirim Kosong' : 'Gagal Memuat Data Pembelian Yang Belum Dikirim'}}
 						</h6>
 						<ion-spinner *ngIf="kirimLoading == 1" name="lines"></ion-spinner>
 						<ion-button *ngIf="kirimLoading == 2" mode="ios" size="small" color="warning" (click)="ambilPembelian(dataUser._id)">Coba Lagi</ion-button>
