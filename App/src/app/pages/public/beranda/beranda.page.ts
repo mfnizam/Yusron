@@ -35,6 +35,7 @@ export class BerandaPage implements OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe(data => {
       this.dataUser = data;
+      this.ambilProduk();
     })
 
     produk.getDataProduk()
